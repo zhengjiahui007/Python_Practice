@@ -14,4 +14,15 @@ else :
     print('Login failed !') 
 """
 
-#snippet 片段
+#snippet 片段console.log('');
+if condition:
+  pass
+elif condition:
+  pass
+else:
+  pass
+
+while expression:
+  pass
+else:
+  pass
