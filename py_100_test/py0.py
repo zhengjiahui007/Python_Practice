@@ -92,7 +92,7 @@ print(type((1,2,3)))
 print(type({1,2,3}))
 '''
 
-#5、获取列表的所有中间元素
+#Practice5、获取列表的所有中间元素
 '''
 _,*list_my,_ = [1,2,3,4,5,6,7]
 _,*tuple_my,_ = (9,8,7,6,5,4)
@@ -105,7 +105,7 @@ print(set_my)
 print(dict_my)
 '''
 
-#6、使用一行代码赋值多个变量
+#Practice6、使用一行代码赋值多个变量
 one_my,two_my,three_my,four_my = 1,5,6,9
 
 print(one_my)
