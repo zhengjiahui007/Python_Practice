@@ -105,6 +105,7 @@ print(set_my)
 print(dict_my)
 '''
 
+'''
 #Practice6、使用一行代码赋值多个变量
 one_my,two_my,three_my,four_my = 1,5,6,9
 
@@ -112,5 +113,18 @@ print(one_my)
 print(two_my)
 print(three_my)
 print(four_my)
+'''
+
+#Practice7 列表推导式
+numbers_list_my = [1,2,3,4,5,6]
+squared_list_my = [nums * nums for nums in numbers_list_my]
+
+print(squared_list_my)
+
+squared_list_my2 = []
+for k in range(0,6):
+    squared_list_my2.insert(k,numbers_list_my[k] * numbers_list_my[k])
+
+print(squared_list_my2)
 
 
