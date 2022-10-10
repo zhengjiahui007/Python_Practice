@@ -116,6 +116,7 @@ print(four_my)
 '''
 
 #Practice7 列表推导式
+""" 
 numbers_list_my = [1,2,3,4,5,6]
 squared_list_my = [nums * nums for nums in numbers_list_my]
 
@@ -125,6 +126,19 @@ squared_list_my2 = []
 for k in range(0,6):
     squared_list_my2.insert(k,numbers_list_my[k] * numbers_list_my[k])
 
-print(squared_list_my2)
+print(squared_list_my2) 
+"""
 
+#Practice8 通过Enum枚举同一标签或一系列常量的集合
+#枚举是绑定到唯一的常量值的一组符号名称(成员)。
+#在枚举中，成员可以通过身份进行比较，枚举本身可以迭代
 
+from enum import Enum
+
+class GY_Status(Enum):
+    GY_COLOR_RED = 0
+    GY_COLOR_GREEN = 1
+    GY_COLOR_BLUE = 3
+
+print(GY_Status.GY_COLOR_RED.name)
+print(GY_Status.GY_COLOR_BLUE.value)
