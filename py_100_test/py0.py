@@ -135,10 +135,46 @@ print(squared_list_my2)
 
 from enum import Enum
 
+class GY_Test:
+    gz_kk = 0
+
+    def __init__(self,x1,x2):
+        print("This is GY Test constructor function !")
+        print("The x1 %d x2 %d " %(x1,x2))
+
+    def gz_printf(self,hm_print):
+        self.gz_kk = hm_print
+        print("The gz_kk is ",self.gz_kk)
+        print("The hm_print is ",hm_print)
+        return
+    
+    __hm_kk = 0
+
+gy_tt = GY_Test(3,7)
+
+gy_tt.gz_printf(76)
+
+
+
+
 class GY_Status(Enum):
     GY_COLOR_RED = 0
     GY_COLOR_GREEN = 1
     GY_COLOR_BLUE = 3
 
 print(GY_Status.GY_COLOR_RED.name)
-print(GY_Status.GY_COLOR_BLUE.value)
+print(GY_Status.GY_COLOR_BLUE.value) 
+
+#Practice9 重复字符串
+""" GY_Test = "Name_test "
+print(GY_Test * 3) """
+
+#Practice10 比较3个数字的大小
+# 如果想比较一个值和其他两个值的大小情况，你可以使用简单的数学表达式
+
+# 这个是最简单的代数表达式，在Python中也是可以使用的。
+""" x_gy = 8
+
+print(4 < x_gy < 9)
+print((4 < x_gy) and (x_gy < 9)) """
+
