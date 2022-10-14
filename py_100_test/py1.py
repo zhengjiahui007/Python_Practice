@@ -45,7 +45,7 @@ print(type(gy_str1)) """
 
 
 #计算出2个数字之间的差值。
-
+""" 
 def gy_subtract(a, b):
     return (a - b)
 
@@ -58,4 +58,38 @@ print((gy_subtract(3, 1)))  # 2
 
 #使用命名参数，安排顺序，这样就不会出错了
 print(gy_subtract(a = 1,b = 3))
-print(gy_subtract(b = 3,a = 1))
+print(gy_subtract(b = 3,a = 1)) """
+
+#Practice 15 用一个print()语句打印多个元素
+""" 
+print(1,2,3,"erer",'euthanasia',"conservation","stranded","vaccinate","I am an engineer!")
+ """
+#Practice 16 在同一行打印多个元素
+""" 
+print("Hello",end = "")
+print("World")
+
+print("Hello",end = " ")
+print("World")
+
+print('words','with','commas','in','between',sep = ',')
+ """
+
+ #Practice 17 打印多个值，在每个值之间使用自定义分隔符
+""" 
+print('14','10','2022',sep = '/')
+print("Garry.Zheng","harman.com",sep = '@')
+ """
+
+#Practice 18 不能在变量名的开头使用数字
+""" 
+gy_test = "Euthanasia"
+__gy_test_1 = "Vaccinate"
+
+#Practice 19 不能在变量名的开头使用运算符
+
+variable_gy = "abcd"  # this doesn’t work
+
+#Practice 20 数字的第一位不能是 0
+number_gy = 0b110 # this doesn't work
+ """
