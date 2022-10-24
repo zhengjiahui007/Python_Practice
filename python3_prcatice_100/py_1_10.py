@@ -28,7 +28,7 @@ print("a is {} b is {} ".format(a,b))
 判断一个字符串是否是回文字符串，是打印True，不是打印False。
 """
 # Answer 
-""" 
+"""
 def Judge_String_Huiwen(str):
     
     Hui_wen_flag = True
@@ -48,6 +48,17 @@ else:
     print("False %s is not Huiwen !"%a_str)
 
  """
+""" #print("Please input a string : ")
+a_str = input("Please input a string : ")
+
+a_str_rever = a_str[::-1]
+
+if a_str_rever == a_str:
+    print("True \"{}\" is Huiwen !".format(a_str))
+else:
+    print("False \"%s\" is not Huiwen !"%a_str) """
+
+
 
 """ 
 1.3字符串切割
@@ -150,9 +161,9 @@ print(gy_join_str) """
 
 统计单词my出现的次数
 """
-
+""" 
 gy_string = "Helwetgo,welcome we mywweworld."
-gy_str_sub = "wwe"
+gy_str_sub = "w"
 
 gy_count_sub = 0
 
@@ -165,7 +176,7 @@ gy_string_temp = gy_string
 gy_count_sub = 0
 gy_sub_index = gy_string_temp.find(gy_str_sub)
 
-while(-1 != gy_sub_index):
+while -1 != gy_sub_index:
     gy_count_sub += 1
     #print(gy_string_temp)
     gy_string_temp = gy_string_temp[gy_sub_index + gy_str_sub_len::]
@@ -176,13 +187,13 @@ while(-1 != gy_sub_index):
 print("The number of \"%s\" in \"%s\" is %d !"%(gy_str_sub,gy_string,gy_count_sub))
 
 
-while(gy_str_sub in gy_string_temp):
+while gy_str_sub in gy_string_temp:
     gy_count_sub += 1
     gy_sub_index = gy_string_temp.find(gy_str_sub)
     gy_string_temp = gy_string_temp[gy_sub_index + gy_str_sub_len::]
 
 print("The number of \"%s\" in \"%s\" is %d !"%(gy_str_sub,gy_string,gy_count_sub))
-#print(gy_string[0:3:1])
+#print(gy_string[0:3:1]) """
 """
 gy_count_sub   = 0
 gy_str_sub_len = len(gy_str_sub)
@@ -215,3 +226,50 @@ for i in range(0,gy_string_len,gy_str_sub_len):
 
 print("\nThe number of \"%s\" in \"%s\" is %d !"%(gy_str_sub,gy_string,gy_count_sub))
 """
+
+"""
+1.9 统计每个字符出现的次数
+题目：输入一个字符串str，输出第m个只出现过n次的字符，　如在字符串gbgkkdehh中，找出第2个只出现1次的字符，输出结果：d
+
+"""
+
+#Answer : 
+""" 
+gy_string = "ertgfddgdegdafdffddfdde"
+gy_m_th = 2
+gy_n_appear_times = 3
+gy_dict = {}
+
+for gy_ch_i in gy_string:
+    gy_appear_count = 0
+    for gy_ch_j in gy_string:
+        if gy_ch_i == gy_ch_j:
+            gy_appear_count += 1
+    gy_dict[gy_ch_i] = gy_appear_count
+
+print(gy_dict)
+
+gy_appear_times = 0
+for gy_dict_item in gy_dict.items():
+    if gy_n_appear_times == gy_dict_item[1]:
+        gy_appear_times += 1
+        if gy_m_th == gy_appear_times:
+            print("The \"%s\" is the %d character appearing %d times!"%(gy_dict_item[0],gy_m_th,gy_n_appear_times))
+            break
+else:
+    print("There is no character matching the condition!")
+ """
+
+"""
+ 1.10 判断字符a含b
+判断字符串a="welcome to my world" 是否包含单词b="world"，包含返回True，不包含返回False
+"""
+""" 
+gy_a = "welcome to my world"
+gy_b = "world"
+
+if gy_b in gy_a:
+    print("True")
+else:
+    print("False")
+ """
