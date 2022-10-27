@@ -192,16 +192,29 @@ print("".join(gy_list_s))
 题目 打印出如下图案（菱形）:
 """
 
-""" gy_N = 7
+gy_N = 7
+gy_line = 0
+gy_row_star = 0
+gy_row_space = 0
 
-for gy_i in range(0,gy_N,1):
-    for gy_j in range(0,gy_N,1):
-        if (gy_j == (gy_N//2)):
-            print("*",end = "")
-        else:
-            print(" ",end = "")
+for gy_line in range(1,gy_N//2 + 2,1):
+    for gy_row_space in range(1,gy_N//2 + 1 - gy_line,1):
+        print(" ",end = "")
+    
+    for gy_row_star in range(1,2 * gy_line - 1 + 1,1):
+        print("*",end = "")
     print("\n")
- """
+
+for gy_line in range(1,gy_N//2 + 1,1):
+    for gy_row_space in range(1,gy_line + 1,1):
+        print(" ",end = "")
+    
+    for gy_row_star in range(1,gy_N - 2 * gy_line + 1,1):
+        print("*",end = "")
+    print("\n")
+
+
+
 
 """
 1.24 输入一个正整数，判断是几位数
@@ -210,7 +223,7 @@ for gy_i in range(0,gy_N,1):
 二、逆序打印出各位数字。
 a = 12345
 """
-
+""" 
 gy_int_str = input("Please input a positive integer no more than 5 digit: ")
 
 if not gy_int_str.isdigit():
@@ -218,6 +231,8 @@ if not gy_int_str.isdigit():
 else:
     print("The %s is a %d digit integer !"%(gy_int_str,len(gy_int_str)))
     print(gy_int_str[::-1])
+
+ """
 
 
 
