@@ -8,3 +8,5 @@ def gy_func(**kwargs):
 
 
 gy_func(**{'age':15,'name':'Garry'})
+
+# function as a return value
