@@ -25,6 +25,10 @@ def Test_Multiply_Calculate(*a,**b):
     time.sleep(3)
     return product
 
+# f0 = Debugger_Enable(True)
+# Test_Add_Calculate = (Debugger_Enable(True)(Test_Add_Calculate))(a,b)
+# Test_Add_Calculate(a,b)
+# (Debugger_Enable(True)(Test_Add_Calculate))(1,2,3,4,z = 5)
 @Debugger_Enable(True)
 def Test_Add_Calculate(*a,**b):
     sum = 0
@@ -33,5 +37,6 @@ def Test_Add_Calculate(*a,**b):
     time.sleep(2)
     return sum
 
-Test_Multiply_Calculate(3,4,5,6,y = 3)
+#Test_Multiply_Calculate(3,4,5,6,y = 3)
 Test_Add_Calculate(1,2,3,4,z = 5)
+
