@@ -27,7 +27,7 @@ def acc_auth(account,pwd):
                 else:
                     return account_data_dic
             else:
-                print("\033[31;lmAccount [%s] does not exist !\033[0m" %account)
+                print("\033[31;1mAccount [%s] does not exist !\033[0m" %account)
                 return None
     else:
         return None
@@ -41,8 +41,8 @@ def acc_login(user_data:dict,log_obj):
     '''
     retry_count = 0
     while ((user_data['is_authenticated'] is not True) and (3 > retry_count)):
-        account_atm = input("\033[32;lmaccount:\033[0m").strip()
-        password_atm = input("\033[32;lmpassword:\033[0m").strip()
+        account_atm = input("\033[32;1maccount:\033[0m").strip()
+        password_atm = input("\033[32;1mpassword:\033[0m").strip()
         auth_atm = acc_auth(account_atm,password_atm)
         if (None != auth_atm):
             user_data['is_authenticated'] = True

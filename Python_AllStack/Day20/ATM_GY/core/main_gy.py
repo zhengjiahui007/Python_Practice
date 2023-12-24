@@ -7,6 +7,7 @@ import os,sys
 #BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #sys.path.append(BASE_DIR)
 from core import logger,auth
+from core import transaction,accounts
 
 #transaction logger
 trans_logger = logger.logger_atm('transaction')
@@ -15,21 +16,60 @@ access_logger = logger.logger_atm('access')
 
 #temp account data,only save the data in memory
 user_data = {
-    'accound_id' : None,
+    'account_id' : None,
     'is_authenticated' : False,
     'account_data' : None
 }
 
 def account_info(acc_data):
-    pass
+    print(acc_data)
     return
 
 def repay(acc_data):
-    pass
+    '''
+    print current balance and let the user repay the bill
+    : return:
+    '''
+    account_data_atm = accounts.load_current_balance(acc_data['account_id'])
+    #or k,v in account_data_atm.items():
+        #print(k,v)
+    current_balance = '''-------- BALANCE INFO --------
+        Credit    :    %s
+        Balance   :    %s''' %(account_data_atm['credit'],account_data_atm['balance'])
+    print(current_balance)
+    back_flag = False
+    while (not back_flag):
+        repay_amount = input("\033[33;1mInput repay amount:\033[0m").strip()
+        if (0 < len(repay_amount) and (repay_amount.isdigit())):
+            new_balance = transaction.make_transaction(trans_logger,account_data_atm,'repay',repay_amount)
+            if (None != new_balance):
+                print('''\033[42;1mNew Balance : %s\033[0m'''%(new_balance['balance']))
+                return
+        else:
+            print('\033[31;1m[]%s is not a valid amount,only accept integer!\033[0m'%(repay_amount))
     return
 
 def withdraw(acc_data):
-    pass
+    '''
+    print current balance and let the user do the withdraw action
+    : acc_data
+    : return:
+    '''
+    account_data_atm = accounts.load_current_balance(acc_data['account_id'])
+    current_balance = '''------- BALANCE INFO --------
+        Credit    :    %s
+        Balance   :    %s''' %(account_data_atm['credit'],account_data_atm['balance'])
+    print(current_balance)
+    back_flag = False
+    while (not back_flag):
+        withdraw_amount = input("\033[33;1mInput withdraw amount:\033[0m").strip()
+        if (0 < len(withdraw_amount) and (withdraw_amount.isdigit())):
+            new_balance = transaction.make_transaction(trans_logger,account_data_atm,'withdraw',withdraw_amount)
+            if (None != new_balance):
+                print('''\033[42;1mNew Balance : %s\033[0m'''%(new_balance['balance']))
+                return
+        else:
+            print('\033[31;1m[]%s is not a valid amount,only accept integer!\033[0m'%(withdraw_amount))
     return
 
 def transfer(acc_data):
@@ -41,7 +81,7 @@ def pay_check(acc_data):
     return
 
 def logout(acc_data):
-    pass
+    exit()
     return
 
 def interactive_atm(acc_data:dict):
@@ -51,8 +91,8 @@ def interactive_atm(acc_data:dict):
     '''
     menu_atm = u'''
     --------- OldBoy Bank ---------
-    \033[32;lm
-    1. Account INfomation
+    \033[32;1m
+    1. Account Infomation
     2. Repay
     3. Withdraw
     4. Transfer
@@ -75,7 +115,7 @@ def interactive_atm(acc_data:dict):
         if user_option in menu_dic_atm.keys():
             menu_dic_atm[user_option](acc_data)
         else:
-            print("\033[31;lmOption does not exist!\033[0m")
+            print("\033[31;1mOption does not exist!\033[0m")
 
 def run(param:int):
     '''

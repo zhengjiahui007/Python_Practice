@@ -21,4 +21,6 @@ LOG_TYPES_ATM = {
 TRANSACTION_TYPE_ATM = {
     'repay' : {'action' : 'plus','interest' : 0},
     'withdraw' : {'action' : 'minus','interest' : 0.05},
+    'transfer' : {'action' : 'minus','interest' : 0.05},
+    'consume' : {'action' : 'minus','interest' : 0}
 }

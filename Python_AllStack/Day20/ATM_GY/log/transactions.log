@@ -1,0 +1,6 @@
+2023-12-24 18:13:30,008 - transaction - INFO - account : 1234   action : repay    amount : 4000    interest : 0.0
+2023-12-24 18:17:09,221 - transaction - INFO - account : 1234   action : repay    amount : 200    interest : 0.0
+2023-12-24 18:17:25,040 - transaction - INFO - account : 1234   action : withdraw    amount : 10000    interest : 500.0
+2023-12-24 18:18:46,922 - transaction - INFO - account : 1234   action : repay    amount : 300    interest : 0.0
+2023-12-24 18:18:59,602 - transaction - INFO - account : 1234   action : withdraw    amount : 1200    interest : 60.0
+2023-12-24 18:21:27,299 - transaction - INFO - account : 1234   action : repay    amount : 800    interest : 0.0
