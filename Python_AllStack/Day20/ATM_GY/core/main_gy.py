@@ -117,6 +117,16 @@ def interactive_atm(acc_data:dict):
         else:
             print("\033[31;1mOption does not exist!\033[0m")
 
+
+def decorator_gy_atm(func_gy):
+    print("This is decorator_gy_atm!")
+    def inner_gy_atm(*arg,**kwarg):
+        print("This is {} , arg is {} , kwarg is {}!".format(func_gy.__name__,arg,kwarg))
+        func_re = func_gy(*arg,**kwarg)
+        return func_re
+    return inner_gy_atm
+
+@decorator_gy_atm
 def run(param:int):
     '''
     This function will be called when program started
