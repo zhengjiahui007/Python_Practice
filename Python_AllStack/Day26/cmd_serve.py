@@ -20,12 +20,17 @@ while True:
                 print("1 obj_cmd = " ,type(obj_cmd))
                 obj_cmd_result = obj_cmd.stdout.read()
                 cmd_result_len_byte = str(len(obj_cmd_result)).encode('utf8')
-                send_len = gy_client_soc.send(cmd_result_len_byte)
+                send_len = gy_client_soc.send(cmd_result_len_byte)##可能会出现粘包现象
                 print("1 send_len = " ,send_len)
-                send_len = gy_client_soc.send(obj_cmd_result)
-                print("2 send_len = " ,send_len)
+                if ("Receive len ok!" == gy_client_soc.recv(1024).decode('utf8')):
+                    send_len = gy_client_soc.send(obj_cmd_result)
+                    print("2 send_len = " ,send_len)
+                else:
+                    print("cmd_result_len_byte not receive by serve,continue ! ")
+                    continue
             except Exception as e:
                 print("Here gy_client_soc  an exception ",e)
+                gy_client_soc.close()
                 break
             else:
                 print("cmd {} run finish !".format(str(rec_message,'utf8')))

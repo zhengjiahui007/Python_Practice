@@ -8,9 +8,12 @@ client_socket_gy.connect(servergy_address)
 while True:
     try:
         inp_mess = input(">>>")
+        if ("exit" == inp_mess):
+            break
         client_socket_gy.send(inp_mess.encode('UTF-8'))
         length_mess = int(str(client_socket_gy.recv(1024),'UTF-8'))
         print("length_mess =  ",length_mess)
+        client_socket_gy.send(bytes("Receive len ok!",'utf8'))
         cmd_result = bytes()
         while (len(cmd_result) != length_mess):
             rec_re = client_socket_gy.recv(1024)
