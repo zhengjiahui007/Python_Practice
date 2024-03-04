@@ -1,3 +1,11 @@
+'''
+https://www.cnblogs.com/happyyangyanghappy/p/10917139.html
+
+https://www.baidu.com/link?url=MvDam5Ow-bs8vanKr0eVpoWDqLHGHnCo2J8Hnbx7xiTYIV-7rHdADV0kLKjaD4mQzmfdq_lypR4vKdbfA8XPZe3TGByNzQlY9sZOIJ9rZt7&wd=&eqid=9ca17cb9000297550000000665e5c290
+
+
+'''
+
 class Harman_gz():
     def __init__(self) -> None:
         return None
