@@ -13,3 +13,9 @@ STUDENT_DB = os.path.join(BASE_DIR,'db','student')
 TRACHER_DB = os.path.join(BASE_DIR,'db','teacher')
 SCHOOL_DB = os.path.join(BASE_DIR,'db','school')
 
+if '__main__' == __name__:
+    #obj = NID('admin','dbb')
+    print(ADMIN_DB)
+    print(os.path.join(ADMIN_DB))
+    print(os.listdir(os.path.join(ADMIN_DB)))
+    #os.listdir(os.path.join(self.db_path)):
