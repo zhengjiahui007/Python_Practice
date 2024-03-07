@@ -10,7 +10,7 @@ COURSE_DB = os.path.join(BASE_DIR,'db','course')
 COURSE_TO_TEACHER_DB = os.path.join(BASE_DIR,'db','course_to_teacher')
 CLASSES_DB = os.path.join(BASE_DIR,'db','classes')
 STUDENT_DB = os.path.join(BASE_DIR,'db','student')
-TRACHER_DB = os.path.join(BASE_DIR,'db','teacher')
+TEACHER_DB = os.path.join(BASE_DIR,'db','teacher')
 SCHOOL_DB = os.path.join(BASE_DIR,'db','school')
 
 if '__main__' == __name__:

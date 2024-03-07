@@ -100,14 +100,149 @@ class School(BaseModel):
             return None
         return schoolname_list
 
+class Teacher(BaseModel):
+    db_path = setting.TEACHER_DB
+
+    def __init__(self,t_name:str,t_level:int):
+        self.nid = identifier.TeacherNid(Teacher.db_path)
+        self.teachername = t_name
+        self.teacherlevel = t_level
+        self.__account = 0
+        return
+
+class Course(BaseModel):
+    db_path = setting.COURSE_DB
+
+    def __init__(self,name:str,price:str,period:str,school_id:str):
+        """
+        :param name: 课程名
+        :param price: 课程价格
+        :param period: 课程周期
+        :param school_id: 关联学校Id，学校ID具有get_obj_by_uuid方法，以此获取学校对象（其中包含学校信息）
+        """
+        self.coursename = name
+        self.courseprice = price
+        self.courseperiod = period
+        self.courseschid = school_id
+        self.nid = identifier.CourseNid(Course.db_path)
+        return
+
+    def __str__(self) -> str:
+        sch_obj = self.courseschid.get_obj_by_uuid()
+        if (None != sch_obj):
+            course_message = '''Course Name : {} Course Price : {} Course Period : {} Course School : {}'''.format(self.coursename,self.courseprice,self.courseperiod,sch_obj.schoolname)
+            return course_message
+        return None
+
+    @staticmethod
+    def get_all_list():
+        course_list = []
+        try:
+            for item in os.listdir(os.path.join(Course.db_path)):
+                if ("__init__.py" != item):
+                    with open(os.path.join(Course.db_path,item),'rb') as file_p:
+                        obj = pickle.load(file_p)
+                        course_list.append(obj.coursename)
+        except Exception as e:
+            print("An exception occurred e ",e)
+            return None
+        return course_list
+
+# 语文id - Alexid
+# 语文 - SB
+# 体育 - Eric
+# 英语 - Alex
+class CourseToTeacher(BaseModel):
+    db_path = setting.COURSE_TO_TEACHER_DB
+
+    def __init__(self,course_id:str,teacher_id:str):
+        self.courseid = course_id
+        self.teacherid = teacher_id
+        self.nid = identifier.CourseToTeacherNid(CourseToTeacher.db_path)
+
+    @staticmethod
+    def course_teacher_list():
+        pass
+
+#  # 语文id - Alexid, # 体育 - Eric
+class Classes(BaseModel):
+    db_path = setting.CLASSES_DB
+
+    def __init__(self,name,tuition,school_id,course_to_teacher_list):
+        """
+        班级
+        :param name: 班级名
+        :param tuition: 学费
+        :param school_id: 学校NID
+        :param course_to_teacher_list:  [CourseToTeacher,CourseToTeacher,]
+        """
+        self.classname = name
+        self.classtuition = tuition
+        self.classschoolid = school_id
+        self.classcoursetoteacher = course_to_teacher_list
+        return
+
+class Score:
+    """
+    成绩单
+    """
+    def __init__(self, student_id):
+        self.scorestuid = student_id
+        self.score_dict = {}
+        return
+    
+    def set(self, course_to_teacher_nid, number):
+        self.score_dict[course_to_teacher_nid] = number
+
+    def get(self, course_to_teacher_nid):
+        return self.score_dict.get(course_to_teacher_nid, None)
+
+class Student(BaseModel):
+    db_path = setting.ADMIN_DB
+
+    def __init__(self, name, age, classes_id):
+        self.stuname = name
+        self.stuage = age
+        self.stuclassid = classes_id
+        self.nid = identifier.StudentNid(Student.db_path)
+        self.stuscore = Score(self.nid)
+        # self.score = {
+        #     '# 体育 - Eric'： 69，
+        #     '语文id - Alexid'： 69，
+        # }
+        return
+
+    @staticmethod
+    def register():
+        pass
+
+class fa_gy:
+    db_path = 223
+    def __init__(self):
+        self.path = 123
+        return
+
+class son_gy(fa_gy):
+    def __init__(self):
+        super(son_gy,self).__init__()
+        return
+
+    def gy_test(self):
+        print(son_gy.db_path,self.path)
+        return 1
+
+
+
 if '__main__' == __name__:
-    obj_ad = Admin('Garry','1234')
-    obj_ad.save_data()
-    obj_ad = Admin('XXG','1234')
-    obj_ad.save_data()
-    obj_ad = Admin('ROOT','1234')
-    obj_ad.save_data()
-    print(Admin.login_admin('XX1G','1234'))
+    obj = son_gy()
+    print(obj.gy_test())
+    # obj_ad = Admin('Garry','1234')
+    # obj_ad.save_data()
+    # obj_ad = Admin('XXG','1234')
+    # obj_ad.save_data()
+    # obj_ad = Admin('ROOT','1234')
+    # obj_ad.save_data()
+    # print(Admin.login_admin('XX1G','1234'))
     # obj_sc = School("SCUT")
     # obj_sc.save_data()
     # obj_sc = School("ZHONGSHAN")
@@ -115,5 +250,11 @@ if '__main__' == __name__:
     # obj_sc = School("BEIJING")
     # obj_sc.save_data()
     # print(School.get_all_schoollist())
+    # obj_c = Course('python','30','7',obj_sc.nid)
+    # obj_c.save_data()
+    # obj_c = Course('Cpp','40','17',obj_sc.nid)
+    # obj_c.save_data()
+    # print(Course.get_all_list())
+
 
 

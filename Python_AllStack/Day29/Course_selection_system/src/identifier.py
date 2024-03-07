@@ -56,7 +56,30 @@ class TeacherNid(NID):
     def __init__(self,db_path:str):
         super().__init__('teacher',db_path)
 
+class CourseNid(NID):
+    def __init__(self,db_path:str):
+        super().__init__('course',db_path)
 
+class CourseToTeacherNid(NID):
+    def __init__(self, db_path):
+        super(CourseToTeacherNid, self).__init__('course_to_teacher', db_path)
+
+    def get_course_teacher_by_uuid(self):
+        """
+        获取课程对象和老师对象
+        :return:
+        """
+        #for item in os.listdir(os.path.join(self.db_path))
+        return
+
+
+class ClassesNid(NID):
+    def __init__(self, db_path):
+        super(ClassesNid, self).__init__('classes', db_path)
+
+class StudentNid(NID):
+    def __init__(self, db_path):
+        super(StudentNid, self).__init__('student', db_path)
 
 if '__main__' == __name__:
     obj = NID('admin','dbb')
