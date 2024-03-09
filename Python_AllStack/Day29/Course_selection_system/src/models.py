@@ -81,7 +81,20 @@ class School(BaseModel):
         return self.schoolname
 
     @staticmethod
-    def get_all_schoollist() -> list:
+    def get_uuid_by_schoolname(schoolname:str) -> str:
+        try:
+            for school_file in os.listdir(os.path.join(School.db_path)):
+                if "__init__.py" != school_file:
+                    with open(os.path.join(School.db_path,school_file),'rb') as file_p:
+                        obj_sc = pickle.load(file_p)
+                        if schoolname == obj_sc.schoolname:
+                            return obj_sc.nid
+        except Exception as e:
+            print('An exception occurred is ',e)
+        return None
+
+    @staticmethod
+    def get_all_schoonamellist() -> list:
         schoolname_list = []
         try:
             for school_file in os.listdir(os.path.join(School.db_path)):
@@ -198,7 +211,7 @@ class Score:
         return self.score_dict.get(course_to_teacher_nid, None)
 
 class Student(BaseModel):
-    db_path = setting.ADMIN_DB
+    db_path = setting.STUDENT_DB
 
     def __init__(self, name, age, classes_id):
         self.stuname = name
@@ -233,7 +246,7 @@ class son_gy(fa_gy):
 
 
 
-if '__main__' == __name__:
+#if '__main__' == __name__:
     #obj = son_gy()
     #print(obj.gy_test())
     # obj_ad = Admin('Garry','1234')
@@ -245,24 +258,20 @@ if '__main__' == __name__:
     # print(Admin.login_admin('XX1G','1234'))
     # obj_sc = School("SCUT")
     # obj_sc.save_data()
-    obj_sc = School("ZHONGSHAN")
-    obj_sc.save_data()
+    # obj_sc = School("ZHONGSHAN")
+    # obj_sc.save_data()
     # obj_sc = School("BEIJING")
     # obj_sc.save_data()
-    # print(School.get_all_schoollist())
-    obj_cpython = Course('python','30','7',obj_sc.nid)
-    obj_cpython.save_data()
-    obj_ccpp = Course('Cpp','40','17',obj_sc.nid)
-    obj_ccpp.save_data()
+    # print(School.get_all_schoonamellist())
+    # obj_cpython = Course('python','30','7',obj_sc.nid)
+    # obj_cpython.save_data()
+    # obj_ccpp = Course('Cpp','40','17',obj_sc.nid)
+    # obj_ccpp.save_data()
     # obj_t = Teacher('VSong',10)
     # obj_t.save_data()
-    obj_tgz = Teacher('GZheng',8)
-    obj_tgz.save_data()
+    # obj_tgz = Teacher('GZheng',8)
+    # obj_tgz.save_data()
     # print(Course.get_all_list())
-    obj_cttea = CourseToTeacher(obj_ccpp.nid,obj_tgz.nid)
-    obj_cttea.save_data()
-    print(obj_cttea.nid.get_course_teacher_by_uuid())
-
-
-
-
+    # obj_cttea = CourseToTeacher(obj_ccpp.nid,obj_tgz.nid)
+    # obj_cttea.save_data()
+    # print(obj_cttea.nid.get_course_teacher_by_uuid())
