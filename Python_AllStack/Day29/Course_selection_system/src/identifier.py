@@ -69,8 +69,18 @@ class CourseToTeacherNid(NID):
         获取课程对象和老师对象
         :return:
         """
-        #for item in os.listdir(os.path.join(self.db_path))
-        return
+        course_teacher_dice = {}
+        try:
+            for item in os.listdir(os.path.join(self.db_path)):
+                if "__init__.py" != item:
+                    if self.uuid == item:
+                        with open(os.path.join(self.db_path,item),'rb') as file_p:
+                            obj = pickle.load(file_p)
+                            course_teacher_dice[obj.courseid.get_obj_by_uuid().coursename] = obj.teacherid.get_obj_by_uuid().teachername
+                            return course_teacher_dice
+        except Exception as e:
+            print("A error occur e ",e)
+        return course_teacher_dice
 
 
 class ClassesNid(NID):

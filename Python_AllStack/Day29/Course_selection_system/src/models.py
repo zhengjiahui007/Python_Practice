@@ -234,8 +234,8 @@ class son_gy(fa_gy):
 
 
 if '__main__' == __name__:
-    obj = son_gy()
-    print(obj.gy_test())
+    #obj = son_gy()
+    #print(obj.gy_test())
     # obj_ad = Admin('Garry','1234')
     # obj_ad.save_data()
     # obj_ad = Admin('XXG','1234')
@@ -245,16 +245,24 @@ if '__main__' == __name__:
     # print(Admin.login_admin('XX1G','1234'))
     # obj_sc = School("SCUT")
     # obj_sc.save_data()
-    # obj_sc = School("ZHONGSHAN")
-    # obj_sc.save_data()
+    obj_sc = School("ZHONGSHAN")
+    obj_sc.save_data()
     # obj_sc = School("BEIJING")
     # obj_sc.save_data()
     # print(School.get_all_schoollist())
-    # obj_c = Course('python','30','7',obj_sc.nid)
-    # obj_c.save_data()
-    # obj_c = Course('Cpp','40','17',obj_sc.nid)
-    # obj_c.save_data()
+    obj_cpython = Course('python','30','7',obj_sc.nid)
+    obj_cpython.save_data()
+    obj_ccpp = Course('Cpp','40','17',obj_sc.nid)
+    obj_ccpp.save_data()
+    # obj_t = Teacher('VSong',10)
+    # obj_t.save_data()
+    obj_tgz = Teacher('GZheng',8)
+    obj_tgz.save_data()
     # print(Course.get_all_list())
+    obj_cttea = CourseToTeacher(obj_ccpp.nid,obj_tgz.nid)
+    obj_cttea.save_data()
+    print(obj_cttea.nid.get_course_teacher_by_uuid())
+
 
 
 
