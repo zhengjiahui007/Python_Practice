@@ -44,7 +44,12 @@ def creat_course():
     print('Course [%s] creat successfully !' % obj_course.coursename)
 
 def show_course():
-    pass
+    print('=====Show Course=====')
+    course_list = Course.get_all_list()
+    print(course_list)
+    for item in course_list:
+        print(item)
+    return
 
 def creat_course_to_teacher():
     pass

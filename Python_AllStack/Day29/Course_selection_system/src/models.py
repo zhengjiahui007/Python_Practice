@@ -155,7 +155,8 @@ class Course(BaseModel):
                 if ("__init__.py" != item):
                     with open(os.path.join(Course.db_path,item),'rb') as file_p:
                         obj = pickle.load(file_p)
-                        course_list.append(obj.coursename)
+                        #course_list.append(obj.coursename)
+                        course_list.append(obj)
         except Exception as e:
             print("An exception occurred e ",e)
             return None
