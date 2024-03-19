@@ -33,14 +33,20 @@ def client_login(conn:socket) -> bool:
         print("%s : %s @ line : %s A exception occurred %s" % (os.path.basename(__file__),inspect.currentframe().f_code.co_name,inspect.currentframe().f_lineno,e))
     return False
 
-def client_cmd(con_soc:socket,cmd:list):
+def client_cmd(con_soc:socket,cmd:str):
     print(cmd)
+    con_soc.send(cmd.encode('utf-8'))
+    return
 
-def client_post(con_soc:socket,cmd:list):
+def client_post(con_soc:socket,cmd:str):
     print(cmd)
+    con_soc.send(cmd.encode('utf-8'))
+    return
 
-def client_get(con_soc:socket,cmd:list):
+def client_get(con_soc:socket,cmd:str):
     print(cmd)
+    con_soc.send(cmd.encode('utf-8'))
+    return
 
 def client_exit():
     exit()
@@ -65,19 +71,20 @@ def client_excute(con_socket:socket):
 
     while True:
         if client_login(con_socket):
-            client_help_info()
-            inp_cmd = input("Please input the command : ")
-            if ('help' == inp_cmd):
+            while True:
                 client_help_info()
-                continue
-            '''
-            Python 字典 in 操作符用于判断键是否存在于字典中，如果键在字典 dict 里返回 true，否则返回 false。
-            而 not in 操作符刚好相反，如果键在字典 dict 里返回 false，否则返回 true。
-            '''
-            cmd_list = inp_cmd.split('|')
-            choice_client = cmd_list[0]
-            if choice_client in choice_dict:
-                choice_dict[choice_client](con_socket,cmd_list[1:])
+                inp_cmd = input("Please input the command : ")
+                if ('help' == inp_cmd):
+                    client_help_info()
+                    continue
+                '''
+                Python 字典 in 操作符用于判断键是否存在于字典中，如果键在字典 dict 里返回 true，否则返回 false。
+                而 not in 操作符刚好相反，如果键在字典 dict 里返回 false，否则返回 true。
+                '''
+                cmd_list = inp_cmd.split(' | ')
+                choice_client = cmd_list[0]
+                if choice_client in choice_dict:
+                    choice_dict[choice_client](con_socket,inp_cmd)
         else:
             print("Please input the correct info !")
             continue

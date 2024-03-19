@@ -44,6 +44,13 @@ class GY_Server(socketserver.BaseRequestHandler):
             while True:
                 if obj_action.has_login:
                     rece_action = server_sock_gy.recv(1024)
+                    if not rece_action:
+                        break
+                    rece_str = rece_action.decode("utf-8")#str(rece_action,encoding = 'utf-8')
+                    cmd_list = rece_str.split(' | ',1)#返回分割后的字符串列表。
+                    print(cmd_list[0],cmd_list[1])
+                    action_attr = getattr(obj_action,cmd_list[0])
+                    action_attr(cmd_list[1])
                 else:
                     obj_action.login()
         except Exception as e:
@@ -76,6 +83,23 @@ class Server_Action(object):
             self.conn.send(result_code.encode('utf-8'))
             if '4002' == result_code:
                 break
+        return
+
+    def server_initialize(self):
+        self.home = os.path.join(settings.USER_HOME, self.username)
+        self.current_dir = os.path.join(settings.USER_HOME, self.username)
+        return
+
+    def post(self,conmand:str):
+        print(conmand)
+        return
+
+    def get(self,conmand:str):
+        print(conmand)
+        return
+
+    def cmd(self,conmand:str):
+        print(conmand)
         return
 
 def server_main():
