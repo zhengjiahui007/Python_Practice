@@ -76,6 +76,7 @@ class Server_Action(object):
                 result_code = '4002'
                 self.has_login = True
                 self.username = user_list[0]
+                self.server_initialize()
             else:
                 result_code = '4003'
                 self.has_login = False
@@ -100,9 +101,63 @@ class Server_Action(object):
 
     def cmd(self,conmand:str):
         print(conmand)
+        cmd_list = re.split('\s+',conmand,1)
+        print(cmd_list)
+        if 'ls' == cmd_list[0]:
+            if len(cmd_list) == 1:
+                if self.current_dir:
+                    cmd_list.append(self.current_dir)
+                else:
+                    cmd_list.append(self.home)
+            else:
+                if self.current_dir:
+                    folder_p = os.path.join(self.current_dir,cmd_list[1])
+                else:
+                    folder_p = os.path.join(self.home,cmd_list[1])
+                cmd_list[1] = folder_p
+
+        if 'cd' == cmd_list[0]:
+            if len(cmd_list) == 1:
+                    cmd_list.append(self.home)
+            else:
+                if self.current_dir:
+                    folder_p = os.path.join(self.current_dir,cmd_list[1])
+                else:
+                    folder_p = os.path.join(self.home,cmd_list[1])
+                cmd_list[1] = folder_p
+        cmd_str = ' '.join(cmd_list)
+        print("cmd_str = ",cmd_str)
+        try:
+            result_bytes = subprocess.check_output(cmd_str,shell = True)
+            print(type(result_bytes))
+            info_result_str = 'info|{}'.format(len(result_bytes))
+            print(info_result_str)
+            info_result_bytes = info_result_str.encode('utf-8')
+            self.conn.send(info_result_bytes)
+            ack_bytes = self.conn.recv(1024)
+            if 'ack' == ack_bytes.decode('utf-8'):
+                result_total_len = len(result_bytes)
+                if 1024 < result_total_len:
+                    for i in range(0,result_total_len,1024):
+                        temp_data = result_bytes[i : (i + 1024) : 1]
+                        self.conn.send(temp_data)
+                else:
+                    self.conn.send(result_bytes)
+        except Exception as e:
+            print("%s : %s @ line : %s A exception occurred %s" % (os.path.basename(__file__),inspect.currentframe().f_code.co_name,inspect.currentframe().f_lineno,e))
         return
 
 def server_main():
     print("ser main")
+    # try:
+    #     data_by = b'334dfksjfkf34fkqfksdjfjadkf0ere'
+    #     print(len(data_by))
+    #     for i in range(0,len(data_by),3):
+    #         print(i,data_by[i:i+3:1])
+    # except Exception as e:
+    #     print(e)
+    # data_b = bytes()
+    # data_s = str()
+    # print(type(data_b),type(data_s))
     my_serve_gy = socketserver.ThreadingTCPServer((settings.BIND_IP,settings.BIND_PORT),GY_Server)
     my_serve_gy.serve_forever()

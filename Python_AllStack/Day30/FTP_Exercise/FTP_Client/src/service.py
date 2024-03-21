@@ -36,11 +36,37 @@ def client_login(conn:socket) -> bool:
 def client_cmd(con_soc:socket,cmd:str):
     print(cmd)
     con_soc.send(cmd.encode('utf-8'))
+    result_info_bytes = con_soc.recv(1024)
+    result_info_str = result_info_bytes.decode('utf-8')
+    result_list = result_info_str.split('|')
+    print(" result_list[1] = ",result_list[1])
+    result_len = int(result_list[1])
+    con_soc.send(bytes('ack',encoding='utf-8'))
+    rece_len = 0
+    result_bytes = bytes()
+    while (rece_len < result_len):
+        temp_bytes = con_soc.recv(1024)
+        rece_len += len(temp_bytes)
+        result_bytes += temp_bytes
+    print(result_bytes.decode('gbk'))
     return
 
 def client_post(con_soc:socket,cmd:str):
     print(cmd)
     con_soc.send(cmd.encode('utf-8'))
+    result_info_bytes = con_soc.recv(1024)
+    result_info_str = result_info_bytes.decode('utf-8')
+    result_list = result_info_str.split('|')
+    print(" result_list[1] = ",result_list[1])
+    result_len = int(result_list[1])
+    con_soc.send(bytes('ack',encoding='utf-8'))
+    rece_len = 0
+    result_bytes = bytes()
+    while (rece_len < result_len):
+        temp_bytes = con_soc.recv(1024)
+        rece_len += len(temp_bytes)
+        result_bytes += temp_bytes
+    print(result_bytes.decode('utf-8'))
     return
 
 def client_get(con_soc:socket,cmd:str):
