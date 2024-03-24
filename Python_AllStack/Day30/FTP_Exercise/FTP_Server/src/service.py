@@ -8,6 +8,7 @@ import re
 import json
 import socketserver,socket
 from config import settings
+from lib import commons
 
 ACTION_CODE = {
     '1000': 'cmd',
@@ -23,6 +24,9 @@ REQUEST_CODE = {
     '2003': '文件已经存在',
     '2004': '续传',
     '2005': '不续传',
+    '2006': "上传完毕",
+    '2007': "上传成功",
+    '2008': "上传失败",
     '3001': 'get info',
     '3002': 'get ack',
     '4001': "未授权",
@@ -93,6 +97,32 @@ class Server_Action(object):
 
     def post(self,conmand:str):
         print(conmand)
+        file_name,target_file_path,file_size,file_md5 = conmand.split(" ")
+        print(file_name,target_file_path,file_size,file_md5)
+        file_size_int = int(file_size)
+        file_server_path = os.path.join(self.home,target_file_path)
+
+        file_has_received_size = 0
+        if os.path.exists(file_server_path):
+            print("File exists !")
+        else:
+            self.conn.send(bytes('2002',encoding = 'utf-8'))
+            with open(file_server_path,'wb') as file_p:
+                while (file_has_received_size < file_size_int):
+                    temp_recvd = self.conn.recv(1024)
+                    file_p.write(temp_recvd)
+                    file_has_received_size += len(temp_recvd)
+                    #print("file_has_received_size = ",file_has_received_size)
+                else:#break 语句可以跳出 for 和 while 的循环体。如果你从 for 或 while 循环中终止，任何对应的循环 else 块将不执行
+                    file_p.close()
+                    temp_recvd = self.conn.recv(1024)
+                    if ('2006' == temp_recvd.decode('utf-8')):
+                        print("2 file_has_received_size = ",file_has_received_size)
+                        file_server_md5 = commons.fetch_file_md5(file_server_path)
+                        if file_md5 == file_server_md5:
+                            self.conn.send(bytes('2007',encoding = 'utf-8'))
+                        else:
+                            self.conn.send(bytes('2008',encoding = 'utf-8'))
         return
 
     def get(self,conmand:str):
@@ -139,6 +169,7 @@ class Server_Action(object):
                 result_total_len = len(result_bytes)
                 if 1024 < result_total_len:
                     for i in range(0,result_total_len,1024):
+                        print("i = ",i)
                         temp_data = result_bytes[i : (i + 1024) : 1]
                         self.conn.send(temp_data)
                 else:
@@ -159,5 +190,12 @@ def server_main():
     # data_b = bytes()
     # data_s = str()
     # print(type(data_b),type(data_s))
+    # 假设有GBK编码的字符串
+    # gbk_string = "你好世界".encode('gbk')
+    # print(type(gbk_string))
+    
+    # # 将GBK编码的字符串解码为Unicode，然后重新编码为UTF-8
+    # utf8_string = gbk_string.decode('gbk').encode('utf-8').decode('utf-8')
+    # print(utf8_string,type(utf8_string))
     my_serve_gy = socketserver.ThreadingTCPServer((settings.BIND_IP,settings.BIND_PORT),GY_Server)
     my_serve_gy.serve_forever()

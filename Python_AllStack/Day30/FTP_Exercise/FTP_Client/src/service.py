@@ -2,9 +2,10 @@
 #!_*_coding:utf-8_*_
 #!author:Garry Zheng
 
-import os,sys,socket,inspect,json
+import os,sys,socket,inspect,json,re
 
 from config import settings
+from lib import commons
 
 '''
 json.dump() 和 json.dumps() 都可以将 Python 对象转换为 JSON 字符串，但是它们之间有一些区别：
@@ -48,25 +49,43 @@ def client_cmd(con_soc:socket,cmd:str):
         temp_bytes = con_soc.recv(1024)
         rece_len += len(temp_bytes)
         result_bytes += temp_bytes
+        print("rece_len = ",rece_len)
     print(result_bytes.decode('gbk'))
     return
 
 def client_post(con_soc:socket,cmd:str):
+    #post | 12.txt 12.txt
     print(cmd)
-    con_soc.send(cmd.encode('utf-8'))
-    result_info_bytes = con_soc.recv(1024)
-    result_info_str = result_info_bytes.decode('utf-8')
-    result_list = result_info_str.split('|')
-    print(" result_list[1] = ",result_list[1])
-    result_len = int(result_list[1])
-    con_soc.send(bytes('ack',encoding='utf-8'))
-    rece_len = 0
-    result_bytes = bytes()
-    while (rece_len < result_len):
-        temp_bytes = con_soc.recv(1024)
-        rece_len += len(temp_bytes)
-        result_bytes += temp_bytes
-    print(result_bytes.decode('utf-8'))
+    cmd_list = cmd.split(' | ')
+    file_path_list = re.split('\s+',cmd_list[1],1)
+    print(file_path_list)
+    local_file_path = file_path_list[0]
+    target_file_path = file_path_list[1]
+    file_name = os.path.basename(local_file_path)
+    file_md5 = commons.fetch_file_md5(local_file_path)
+    print("type is ",type(file_md5))
+    file_size = os.path.getsize(local_file_path)
+    print(file_md5,file_size)
+    file_info_str = "post | %s %s %s %s" %(file_name,target_file_path,file_size,file_md5)
+    print(file_info_str)
+    con_soc.send(file_info_str.encode('utf-8'))
+    recv_ack = con_soc.recv(1024)
+    if ('2002' == recv_ack.decode('utf-8')):
+        file_has_sent_size = 0
+        with open(local_file_path,'rb') as file_p:
+            while (file_has_sent_size < file_size):
+                temp_sent = file_p.read(1024)
+                con_soc.send(temp_sent)
+                file_has_sent_size += len(temp_sent)
+                #print("1  file_has_sent_size = ",file_has_sent_size)
+            else:
+                print("2  file_has_sent_size = ",file_has_sent_size)
+                con_soc.send(bytes('2006',encoding = 'utf-8'))
+                recv_mess = con_soc.recv(1024)
+                if ('2007' == recv_mess.decode('utf-8')):
+                    print("Upload successfully !!!!")
+                else:
+                    print("Upload failed !!!!")
     return
 
 def client_get(con_soc:socket,cmd:str):
