@@ -68,15 +68,54 @@ def client_post(con_soc:socket,cmd:str):
     print(file_md5,file_size)
     file_info_str = "post | %s %s %s %s" %(file_name,target_file_path,file_size,file_md5)
     print(file_info_str)
+    file_has_sent_size = 0
+    user_choice = '1'
     con_soc.send(file_info_str.encode('utf-8'))
     recv_ack = con_soc.recv(1024)
+    print("rec = ",recv_ack.decode('utf-8'))
+    if ('2003' == recv_ack.decode('utf-8')):
+        user_choice = input("File exists,continue to upload or not (Y/N) : ")
+        if ('Y' == user_choice):
+            con_soc.send(bytes('2004',encoding = 'utf-8'))
+            recv_ack = con_soc.recv(1024)
+            recv_ack_str = recv_ack.decode('utf-8')
+            cmd_list = recv_ack_str.split('|')
+            print(cmd_list)
+            con_soc.send(bytes('3001',encoding = 'utf-8'))
+            recv_ack = con_soc.recv(1024)
+            if ('2002' == recv_ack.decode('utf-8')):
+                file_has_sent_size = int(cmd_list[1])
+                # with open(local_file_path,'rb') as file_p:
+                #     file_p.seek(file_has_sent_size)
+                #     while (file_has_sent_size < file_size):
+                #         temp_sent = file_p.read(1024)
+                #         con_soc.send(temp_sent)
+                #         file_has_sent_size += len(temp_sent)
+                #         #print("1  file_has_sent_size = ",file_has_sent_size)
+                #     else:
+                #         print("2  file_has_sent_size = ",file_has_sent_size)
+                #         con_soc.send(bytes('2006',encoding = 'utf-8'))
+                #         recv_mess = con_soc.recv(1024)
+                #         if ('2007' == recv_mess.decode('utf-8')):
+                #             print("Upload successfully !!!!")
+                #         else:
+                #             print("Upload failed !!!!")
+        elif ('N' == user_choice):
+            con_soc.send(bytes('2005',encoding = 'utf-8'))
+            recv_ack = con_soc.recv(1024)
+
     if ('2002' == recv_ack.decode('utf-8')):
-        file_has_sent_size = 0
+        #file_has_sent_size = 0
+        print("11 rec = ",recv_ack.decode('utf-8'))
         with open(local_file_path,'rb') as file_p:
+            file_p.seek(file_has_sent_size)
             while (file_has_sent_size < file_size):
                 temp_sent = file_p.read(1024)
                 con_soc.send(temp_sent)
                 file_has_sent_size += len(temp_sent)
+                if (('1' == user_choice) and (1024*1024 < file_has_sent_size)):
+                    print("223445")
+                    break
                 #print("1  file_has_sent_size = ",file_has_sent_size)
             else:
                 print("2  file_has_sent_size = ",file_has_sent_size)

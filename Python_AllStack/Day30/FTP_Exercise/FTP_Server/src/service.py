@@ -105,13 +105,63 @@ class Server_Action(object):
         file_has_received_size = 0
         if os.path.exists(file_server_path):
             print("File exists !")
+            self.conn.send(bytes('2003',encoding = 'utf-8'))
+            temp_recvd = self.conn.recv(1024)
+            if ('2004' == temp_recvd.decode('utf-8')):
+                file_exist_size = os.path.getsize(file_server_path)
+                file_exit_info = 'info|%d'%(file_exist_size)
+                self.conn.send(bytes(file_exit_info,encoding = 'utf-8'))
+                temp_recvd = self.conn.recv(1024)
+                print("11 File exists !")
+                if ('3001' == temp_recvd.decode('utf-8')):
+                    self.conn.send(bytes('2002',encoding = 'utf-8'))
+                    print("File file_exist_size =  ",file_exist_size)
+                    file_has_received_size = file_exist_size
+                    with open(file_server_path,'ab') as file_p:
+                        while (file_has_received_size < file_size_int):
+                            temp_recvd = self.conn.recv(1024)
+                            file_p.write(temp_recvd)
+                            file_has_received_size += len(temp_recvd)
+                            #print("file_has_received_size = ",file_has_received_size)
+                        else:#break 语句可以跳出 for 和 while 的循环体。如果你从 for 或 while 循环中终止，任何对应的循环 else 块将不执行
+                            file_p.close()
+                            temp_recvd = self.conn.recv(1024)
+                            if ('2006' == temp_recvd.decode('utf-8')):
+                                print("2 file_has_received_size = ",file_has_received_size)
+                                file_server_md5 = commons.fetch_file_md5(file_server_path)
+                                if file_md5 == file_server_md5:
+                                    self.conn.send(bytes('2007',encoding = 'utf-8'))
+                                else:
+                                    self.conn.send(bytes('2008',encoding = 'utf-8'))
+            elif ('2005' == temp_recvd.decode('utf-8')):
+                self.conn.send(bytes('2002',encoding = 'utf-8'))
+                with open(file_server_path,'wb') as file_p:
+                    while (file_has_received_size < file_size_int):
+                        temp_recvd = self.conn.recv(1024)
+                        file_p.write(temp_recvd)
+                        file_has_received_size += len(temp_recvd)
+                        #print("file_has_received_size = ",file_has_received_size)
+                    else:#break 语句可以跳出 for 和 while 的循环体。如果你从 for 或 while 循环中终止，任何对应的循环 else 块将不执行
+                        file_p.close()
+                        temp_recvd = self.conn.recv(1024)
+                        if ('2006' == temp_recvd.decode('utf-8')):
+                            print("2 file_has_received_size = ",file_has_received_size)
+                            file_server_md5 = commons.fetch_file_md5(file_server_path)
+                            if file_md5 == file_server_md5:
+                                self.conn.send(bytes('2007',encoding = 'utf-8'))
+                            else:
+                                self.conn.send(bytes('2008',encoding = 'utf-8'))
         else:
             self.conn.send(bytes('2002',encoding = 'utf-8'))
+            print("rec = 111 ")
             with open(file_server_path,'wb') as file_p:
                 while (file_has_received_size < file_size_int):
                     temp_recvd = self.conn.recv(1024)
                     file_p.write(temp_recvd)
                     file_has_received_size += len(temp_recvd)
+                    if (1024*1024 < file_has_received_size):
+                        print("11223")
+                        break
                     #print("file_has_received_size = ",file_has_received_size)
                 else:#break 语句可以跳出 for 和 while 的循环体。如果你从 for 或 while 循环中终止，任何对应的循环 else 块将不执行
                     file_p.close()
