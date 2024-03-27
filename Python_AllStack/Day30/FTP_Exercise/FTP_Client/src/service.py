@@ -121,6 +121,7 @@ def client_post(con_soc:socket,cmd:str):
                 print("2  file_has_sent_size = ",file_has_sent_size)
                 con_soc.send(bytes('2006',encoding = 'utf-8'))
                 recv_mess = con_soc.recv(1024)
+                print("11 rec = ",recv_mess.decode('utf-8'))
                 if ('2007' == recv_mess.decode('utf-8')):
                     print("Upload successfully !!!!")
                 else:
