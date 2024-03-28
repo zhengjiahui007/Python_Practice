@@ -2,7 +2,7 @@
 #!__author__:"Garry Zheng"
 #！/usr/bin/env python 3
 
-import os,sys,inspect
+import os,sys,inspect,pickle
 import subprocess
 import re
 import json
@@ -29,23 +29,52 @@ REQUEST_CODE = {
     '2008': "上传失败",
     '3001': 'get info',
     '3002': 'get ack',
-    '4001': "未授权",
+    '4001': "用户登录",
     '4002': "授权成功",
-    '4003': "授权失败"
+    '4003': "授权失败",
+    '4004': "创建账户",
+    '4005': "创建成功",
+    '4006': "创建失败",
+    '4007': "账户已存在",
+    '4008': "用户退出"
+
 }
 
 
 class GY_Server(socketserver.BaseRequestHandler):
 
     def handle(self) -> None:
-        try:
-            server_sock_gy = self.request
+        server_sock_gy = self.request
+        while True:
             print("Starting GY_Serve ... !")
             #print(server_sock_gy,self.client_address)
-            welcome_message = "Welcome Login !"
+            welcome_message = "Welcome Online !"
             server_sock_gy.send(welcome_message.encode('utf-8'))
             obj_action = Server_Action(server_sock_gy)
             while True:
+                recv_action = server_sock_gy.recv(1024)
+                rece_str = recv_action.decode("utf-8")
+                cmd_list = rece_str.split(' | ',1)#返回分割后的字符串列表。
+                if ('4004' == cmd_list[0]):
+                    print(cmd_list[0],cmd_list[1])
+                    user_list = json.loads(cmd_list[1])
+                    print(user_list)
+                    if commons.check_user_exist(settings.USER_DBASE,user_list[0]):
+                        server_sock_gy.send(bytes('4007',encoding = 'utf-8'))
+                        continue
+                    else:
+                        obj_action.creat(user_list[0],user_list[1])
+                        server_sock_gy.send(bytes('4005',encoding = 'utf-8'))
+                        continue
+                elif ('4001' == cmd_list[0]):
+                    print(cmd_list[0],cmd_list[1])
+                    user_list = json.loads(cmd_list[1])
+                    print(user_list)
+                    obj_action.login(user_list[0],user_list[1])
+                elif ('4008' == cmd_list[0]):
+                    del obj_action
+                    break
+
                 if obj_action.has_login:
                     rece_action = server_sock_gy.recv(1024)
                     if not rece_action:
@@ -53,41 +82,63 @@ class GY_Server(socketserver.BaseRequestHandler):
                     rece_str = rece_action.decode("utf-8")#str(rece_action,encoding = 'utf-8')
                     cmd_list = rece_str.split(' | ',1)#返回分割后的字符串列表。
                     print(cmd_list[0],cmd_list[1])
+                    if ('4008' == cmd_list[0]):
+                        del obj_action
+                        break
                     action_attr = getattr(obj_action,cmd_list[0])
                     action_attr(cmd_list[1])
                 else:
-                    obj_action.login()
-        except Exception as e:
-            print("%s : %s @ line : %s A exception occurred %s" % (os.path.basename(__file__),inspect.currentframe().f_code.co_name,inspect.currentframe().f_lineno,e))
+                    server_sock_gy.send("Please login !".encode('utf-8'))
         server_sock_gy.close()
+        return
+
+class Account_Info():
+    def __init__(self,user:str,pwd:str):
+        self.username = user
+        self.password = pwd
         return
 
 class Server_Action(object):
     def __init__(self, conn:socket):
         self.conn = conn
+        self.has_exist = False
         self.has_login = False
         self.username = None
         self.home = None
         self.current_dir = None
+        self.db_path = settings.USER_DBASE
+        return
 
-    def login(self):
-        while True:
-            login_mess = self.conn.recv(1024)
-            login_mess_str = login_mess.decode('utf-8')
-            user_list = json.loads(login_mess_str)
-            print(user_list)
-            if ('Garry' == user_list[0]) and ('12345' == user_list[1]):
+    def creat(self,user:str,pwd:str):
+        db_file_name = user
+        acc_obj = Account_Info(user,pwd)
+        db_file_path = os.path.join(self.db_path,db_file_name)
+        with open(db_file_path,'wb') as file_p:
+            pickle.dump(acc_obj,file_p)
+        
+        self.username = user
+        self.home = os.path.join(settings.USER_HOME,self.username)
+        if not os.path.exists(self.home):
+            os.mkdir(self.home,0o755)
+            self.current_dir = os.path.join(settings.USER_HOME, self.username)
+        else:
+            print("The {} folder has existed !".format(self.username))
+            return False
+        return True
+
+    def login(self,user:str,pwd:str) -> bool:
+        db_file_path = os.path.join(self.db_path,user)
+        with open(db_file_path,'rb') as file_p:
+            acc_obj = pickle.load(file_p)
+            if (user == acc_obj.username) and (pwd == acc_obj.password):
                 result_code = '4002'
                 self.has_login = True
-                self.username = user_list[0]
-                self.server_initialize()
+                self.username = user
             else:
                 result_code = '4003'
                 self.has_login = False
             print(result_code)
             self.conn.send(result_code.encode('utf-8'))
-            if '4002' == result_code:
-                break
         return
 
     def server_initialize(self):

@@ -1,8 +1,10 @@
 import inspect,sys,os
 
 import sys
-import hashlib
+import uuid,hashlib
 
+def creat_uuid():
+    return str(uuid.uuid1())
 
 def fetch_file_md5(file_path):
     obj_h = hashlib.md5()
@@ -27,3 +29,10 @@ def fetch_file_md5(file_path):
         # print(not temp_str)
         # temp_str = "2"
         # print(not temp_str)
+
+
+def check_user_exist(dbasepath:str,username:str) -> bool:
+    for name in os.listdir(dbasepath):
+        if name == username:
+            return True
+    return False

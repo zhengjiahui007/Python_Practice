@@ -15,17 +15,41 @@ json.dump() 生成的 JSON 字符串会自动写入文件，而 json.dumps() 只
 
 '''
 
+def client_creat(conn:socket) -> bool:
+    try:
+        user_client = input("Please input your user name : ")
+        pwd_client = input("Please input your password : ")
+        user_info = [user_client,pwd_client]
+        user_info_str = json.dumps(user_info)
+        creat_account_info = "4004 | {}".format(user_info_str)
+        conn.send(creat_account_info.encode('utf-8'))
+        receive_message = conn.recv(1024)
+        print(receive_message.decode('utf-8'))
+        if ('4005' == receive_message.decode('utf-8')):
+            print("Creat Successfully,please login !")
+            return True
+        elif ('4007' == receive_message.decode('utf-8')):
+            print("User name existed ,please use another name !")
+            return False
+        elif ('4006' == receive_message.decode('utf-8')):
+            print("Creat failed !")
+            return False
+    except Exception as e:
+        print(" An exception occured e ",e)
+        return False
+
 def client_login(conn:socket) -> bool:
     try:
         user_client = input("Please input your user name : ")
         pwd_client = input("Please input your password : ")
         user_info = [user_client,pwd_client]
         user_info_str = json.dumps(user_info)
+        user_info_str = '4001 | {}'.format(user_info_str)
         conn.send(user_info_str.encode('utf-8'))
         receive_message = conn.recv(1024)
         print(receive_message.decode('utf-8'))
         if ('4002' == receive_message.decode('utf-8')):
-            print("Login successfully !")
+            print("Login successfully!")
             return True
         else:
             print("Login failed !")
@@ -130,10 +154,10 @@ def client_post(con_soc:socket,cmd:str):
 
 def client_get(con_soc:socket,cmd:str):
     print(cmd)
-    con_soc.send(cmd.encode('utf-8'))
     return
 
-def client_exit():
+def client_exit(con_soc:socket,cmd:str):
+    con_soc.send(bytes('4008 | exit',encoding = 'utf-8'))
     exit()
     return
 
@@ -147,29 +171,49 @@ def client_help_info():
     """)
 
 def client_excute(con_socket:socket):
+    dis_playmessage = """
+    1.Creat account.
+    2.Login account.
+    3.Exit
+    """
+    init_choice_dict = {
+        "1" : client_creat,
+        "2" : client_login,
+        "3" : client_exit
+    }
+    while True:
+        print(dis_playmessage)
+        user_choice = input("Please input your choice : ")
+        if user_choice in init_choice_dict:
+            result = init_choice_dict[user_choice](con_socket)
+            if (True == result):
+                init_choice_dict["2"](con_socket)
+                break
+        else:
+            print("You choice is not correct, please input again !")
+            continue
+
     choice_dict = {
-        "cmd" : client_cmd,
+        "cmd"  : client_cmd,
         "post" : client_post,
-        "get" : client_get,
+        "get"  : client_get,
         "exit" : client_exit
     }
 
     while True:
-        if client_login(con_socket):
-            while True:
-                client_help_info()
-                inp_cmd = input("Please input the command : ")
-                if ('help' == inp_cmd):
-                    client_help_info()
-                    continue
-                '''
-                Python 字典 in 操作符用于判断键是否存在于字典中，如果键在字典 dict 里返回 true，否则返回 false。
-                而 not in 操作符刚好相反，如果键在字典 dict 里返回 false，否则返回 true。
-                '''
-                cmd_list = inp_cmd.split(' | ')
-                choice_client = cmd_list[0]
-                if choice_client in choice_dict:
-                    choice_dict[choice_client](con_socket,inp_cmd)
+        client_help_info()
+        inp_cmd = input("Please input the command : ")
+        if ('help' == inp_cmd):
+            client_help_info()
+            continue
+        '''
+        Python 字典 in 操作符用于判断键是否存在于字典中，如果键在字典 dict 里返回 true，否则返回 false。
+        而 not in 操作符刚好相反，如果键在字典 dict 里返回 false，否则返回 true。
+        '''
+        cmd_list = inp_cmd.split(' | ')
+        choice_client = cmd_list[0]
+        if choice_client in choice_dict:
+            choice_dict[choice_client](con_socket,inp_cmd)
         else:
             print("Please input the correct info !")
             continue
