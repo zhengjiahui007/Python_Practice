@@ -74,21 +74,22 @@ class GY_Server(socketserver.BaseRequestHandler):
                 elif ('4008' == cmd_list[0]):
                     del obj_action
                     break
-
-                if obj_action.has_login:
-                    rece_action = server_sock_gy.recv(1024)
-                    if not rece_action:
+                while True:
+                    if obj_action.has_login:
+                        rece_action = server_sock_gy.recv(1024)
+                        if not rece_action:
+                            break
+                        rece_str = rece_action.decode("utf-8")#str(rece_action,encoding = 'utf-8')
+                        cmd_list = rece_str.split(' | ',1)#返回分割后的字符串列表。
+                        print(cmd_list[0],cmd_list[1])
+                        if ('4008' == cmd_list[0]):
+                            del obj_action
+                            break
+                        action_attr = getattr(obj_action,cmd_list[0])
+                        action_attr(cmd_list[1])
+                    else:
+                        server_sock_gy.send("Please login !".encode('utf-8'))
                         break
-                    rece_str = rece_action.decode("utf-8")#str(rece_action,encoding = 'utf-8')
-                    cmd_list = rece_str.split(' | ',1)#返回分割后的字符串列表。
-                    print(cmd_list[0],cmd_list[1])
-                    if ('4008' == cmd_list[0]):
-                        del obj_action
-                        break
-                    action_attr = getattr(obj_action,cmd_list[0])
-                    action_attr(cmd_list[1])
-                else:
-                    server_sock_gy.send("Please login !".encode('utf-8'))
         server_sock_gy.close()
         return
 
@@ -134,6 +135,7 @@ class Server_Action(object):
                 result_code = '4002'
                 self.has_login = True
                 self.username = user
+                self.server_initialize()
             else:
                 result_code = '4003'
                 self.has_login = False
@@ -169,7 +171,7 @@ class Server_Action(object):
                     # self.conn.send(bytes('2002',encoding = 'utf-8'))
                     print("File file_exist_size =  ",file_exist_size)
                     file_has_received_size = file_exist_size
-                    # file_p = open(file_server_path,'ab')
+                    file_p = open(file_server_path,'ab')
                     #with open(file_server_path,'ab') as file_p:
                         # while (file_has_received_size < file_size_int):
                         #     temp_recvd = self.conn.recv(1024)
@@ -190,6 +192,7 @@ class Server_Action(object):
                 print("No need to continue to upload !")
                 file_exist_size = -1
                 os.remove(file_server_path)
+                file_p = open(file_server_path,'wb')
                 # self.conn.send(bytes('2002',encoding = 'utf-8'))
                 # with open(file_server_path,'wb') as file_p:
                 #     while (file_has_received_size < file_size_int):
@@ -207,18 +210,18 @@ class Server_Action(object):
                 #                 self.conn.send(bytes('2007',encoding = 'utf-8'))
                 #             else:
                 #                 self.conn.send(bytes('2008',encoding = 'utf-8'))
-        # else:
+        else:
+            file_p = open(file_server_path,'wb')
         self.conn.send(bytes('2002',encoding = 'utf-8'))
         print("rec = 111 ")
-        file_p = open(file_server_path,'ab')
         # with open(file_server_path,'wb') as file_p:
         while (file_has_received_size < file_size_int):
             temp_recvd = self.conn.recv(1024)
             file_p.write(temp_recvd)
             file_has_received_size += len(temp_recvd)
-            if ((0 == file_exist_size) and (1024*1024 < file_has_received_size)):
-                print("11223")
-                break
+            # if ((0 == file_exist_size) and (1024*1024 < file_has_received_size)):
+            #     print("11223")
+            #     break
             #print("file_has_received_size = ",file_has_received_size)
         else:#break 语句可以跳出 for 和 while 的循环体。如果你从 for 或 while 循环中终止，任何对应的循环 else 块将不执行
             file_p.close()

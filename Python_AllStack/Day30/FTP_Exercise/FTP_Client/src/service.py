@@ -137,9 +137,9 @@ def client_post(con_soc:socket,cmd:str):
                 temp_sent = file_p.read(1024)
                 con_soc.send(temp_sent)
                 file_has_sent_size += len(temp_sent)
-                if (('1' == user_choice) and (1024*1024 < file_has_sent_size)):
-                    print("223445")
-                    break
+                # if (('1' == user_choice) and (1024*1024 < file_has_sent_size)):
+                #     print("223445")
+                #     break
                 #print("1  file_has_sent_size = ",file_has_sent_size)
             else:
                 print("2  file_has_sent_size = ",file_has_sent_size)
@@ -186,8 +186,10 @@ def client_excute(con_socket:socket):
         user_choice = input("Please input your choice : ")
         if user_choice in init_choice_dict:
             result = init_choice_dict[user_choice](con_socket)
-            if (True == result):
-                init_choice_dict["2"](con_socket)
+            if (('1' == user_choice) and (True == result)):
+                if (True == init_choice_dict["2"](con_socket)):
+                    break
+            elif (True == result):
                 break
         else:
             print("You choice is not correct, please input again !")
