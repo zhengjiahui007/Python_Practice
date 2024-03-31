@@ -1,5 +1,8 @@
 
-
+'''
+python-类的继承 构造方法的重写及继承
+https://zhuanlan.zhihu.com/p/345723147
+'''
 
 class Fa_gy():
     def __init__(self, name, age):
