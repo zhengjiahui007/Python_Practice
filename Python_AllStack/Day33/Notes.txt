@@ -1,0 +1,12 @@
+1.物理层
+
+2.数据链路层 --- mac 地址 Internet 协议 ，广播
+
+3.网络层 --- IP 协议
+
+
+https://baijiahao.baidu.com/s?id=1689204361386289089&wfr=spider&for=pc
+
+https://blog.51cto.com/u_15060515/4330308
+
+https://blog.csdn.net/qican_7/article/details/102546090
