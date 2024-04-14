@@ -9,7 +9,7 @@ gy_client_soc = socket.socket(socket.AF_INET,socket.SOCK_STREAM,0,None)
 gy_server_address_port = ('127.0.0.1',8899)
 
 gy_client_soc.connect(gy_server_address_port)
-
+print("1 gy_client_soc = ",gy_client_soc)
 while True:
     try:
         send_mess = input("Please input >>> ")

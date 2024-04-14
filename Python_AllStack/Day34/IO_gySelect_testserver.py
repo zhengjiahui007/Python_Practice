@@ -20,19 +20,18 @@ rece_message = {}
 r_list = []
 w_list = []
 e_list = []
-print("gy_ser_soc Start ...")
+print("gy_ser_soc Start ...",gy_input_list)
 while True:
-    r_list,w_list,e_list = select.select(gy_input_list,gy_output_list,[])
+    r_list,w_list,e_list = select.select(gy_input_list,gy_output_list,[],5)
     print("r_list = ",r_list)
     for i_soc in r_list:
-        conn,addre = i_soc.accept()
-        print(conn,addre)
-        recv_bytes = conn.recv(1024)
-        print("recv mess : ",recv_bytes.decode('utf-8'))
-        if 'Exit' == recv_bytes.decode('utf-8'):
-            client_con.close()
-            break
-    time.sleep(3)
+        if (i_soc is gy_server_soc_0) or (i_soc is gy_server_soc_1):
+            conn,addre = i_soc.accept()
+            print(conn,addre)
+            gy_input_list.append(conn)
+        else:
+            recv_bytes = i_soc.recv(1024)
+            print("recv mess : ",recv_bytes.decode('utf-8'))
 
 
 
