@@ -10,10 +10,13 @@ gy_mysql_db = pymysql.connect(host = '127.0.0.1',port = 3306,user = 'root' , pas
 gy_db_cursor = gy_mysql_db.cursor()
 
 gy_db_sql = 'insert into gy_tb5 (name,age,gender,major_id) values ("GH",19,"male",3)'
-
+gy_db_sql1 = 'insert into gy_tb5 (name,age,gender,major_id) values ("GAAH",19,"female",2)'
 try:
     gy_db_cursor.execute(gy_db_sql)
+    gy_db_cursor.execute(gy_db_sql1)
     gy_mysql_db.commit()
 except:
     gy_mysql_db.rollback()
 
+gy_db_cursor.close()
+gy_mysql_db.close()
