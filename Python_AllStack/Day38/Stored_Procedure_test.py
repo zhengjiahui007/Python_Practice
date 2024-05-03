@@ -27,3 +27,7 @@ except Exception as e:
 gy_db_cursor.close()
 gy_mysql_db.close()
 
+
+# BEGIN
+# 	insert into gy_tb5 (name,age,gender,major_id) values ("郑GHS",gy_store_age,"male",2);
+# END
