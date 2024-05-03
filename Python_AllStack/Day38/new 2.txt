@@ -1,0 +1,71 @@
+http://www.cnblogs.com/wupeiqi/articles/5713323.html
+http://www.cnblogs.com/wupeiqi/articles/5716963.html
+
+
+1、视图
+    定义一个名称：
+    a. 定义对应关系，# 视图--不是真实的表？？？？？
+    
+        temp1 <---> select * from score where course_id in (1,2)
+    
+
+
+    10道题：
+        
+        b. 调用temp1
+        
+        select * from     
+          select * from score where course_id in (1,2)
+          where xxx
+        
+        
+        select * from 
+        (
+        
+        select * from score where course_id in (1,2)
+        ) group by 
+        
+        select * from 
+        (
+        
+        select * from score where course_id in (1,2)
+        ) order by 
+    
+    # pymysql
+    execute('select * from temp1  left join .....')
+    
+3、存储过程
+    c1 => 
+          select * from temp1  left join .....
+          
+    # mysql客户端
+    call c1()
+    
+    
+    
+    # pymysql 
+    import pymysql
+
+    conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', passwd='123', db='t1')
+    cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
+    #
+    # cursor.execute('select * from clasasdfasdfasdfasdfasdfasdfasdfasdfs;')
+    cursor.callproc('p2')
+ 
+    result = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    
+
+
+
+    
+    
+
+2、触发器
+
+4、函数
+5、索引
+    
