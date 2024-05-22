@@ -4,6 +4,7 @@
 
 
 import os,sys,time,math
+from Test_com import py_test_exit
 
 def py_test_1_2_2():
     gy_str = "Python is good"
@@ -48,9 +49,7 @@ def py_test_1_3_1():
     print("gy_list is {0}".format(gy_list))
     return None
 
-def py_test_exit():
-    exit()
-    return None
+
 
 if ("__main__" == __name__):
     dis_playmessage = """

@@ -3,6 +3,7 @@
 #!usr/bin/env python3
 
 import os,sys,time,math
+from Test_com import py_test_exit
 
 def py_test_1_1_1():
     ## == 用来比较两个变量的值是否相等，而 is 则用来比对两个变量引用的是否是同一个对象
@@ -40,10 +41,6 @@ def py_test_1_1_3():
     print(' 9除5,要求没有⼩数部分 is ',9//5)
     print(' ⽤程序计算根号16,也就是16的2分之⼀次⽅ is ',16 ** 0.5)
     print(' ⽤函数计算根号16,也就是16的2分之⼀次⽅ is ',math.sqrt(16))
-    return None
-
-def py_test_exit():
-    exit()
     return None
 
 
