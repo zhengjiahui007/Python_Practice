@@ -43,6 +43,59 @@ def py_test_1_3_6():
     print("The index of 6 in {0} is {1} .".format(gy_list,gy_list.index(6)))
     return None
 
+def py_test_1_3_6_1():
+    gy_list = [2,5,6,7,8,9,2,9,9]
+    print("gy_list is ",gy_list)    
+    print("gy_list[2:4] is ",gy_list[2:4])
+    print("gy_list[1:-3] is ",gy_list[1:-3])
+    print("gy_list[-5] is ",gy_list[-5])
+    print("gy_list[ : -4] is ",gy_list[ : -4])
+    print("gy_list[-4 : ] is ",gy_list[-4 : ])
+    return None
+
+def py_test_1_3_7():
+    gy_list = [2,5,6,7,8,9,2,9,9]
+    print("gy_list is ",gy_list)
+    gy_list_c = gy_list.copy()
+    gy_list_c.append(15)
+    print("gy_list_c is ",gy_list_c)
+    gy_list_c = gy_list.copy()
+    gy_list_c.insert(4,20)
+    print("gy_list_c is ",gy_list_c)
+    gy_list_c = gy_list.copy()
+    gy_list_c.extend([2,5,6])
+    print("gy_list_c is ",gy_list_c)
+    gy_list_c = gy_list.copy()
+    gy_list_c.pop(3)
+    print("gy_list_c is ",gy_list_c)
+    gy_list.reverse()
+    print("Reverse gy_list is ",gy_list)
+    gy_list.sort(reverse = False)
+    print("Sort gy_list from small to big is ",gy_list)
+    gy_list.sort(reverse = True)
+    print("Sort gy_list from big to small is ",gy_list)      
+    return None
+
+def py_test_1_3_8():
+    gy_list = [1,4,5,[1,3,5,6,[8,9,10,12]]]
+    print("gy_list is ",gy_list)
+    print("The length of {0} is {1} .".format(gy_list,len(gy_list)))
+    print("The count of {0} is {1} .".format(gy_list,len(gy_list)))
+    print("The type of gy_list[1] is ",type(gy_list[1]))
+    print("The type of gy_list[3] is ",type(gy_list[3]))
+    print("The gy_list[3][4] is ",(gy_list[3][4]))
+    print("The gy_list[3][4][1] is ",(gy_list[3][4][1]))
+    gy_list_c = copy.deepcopy(gy_list)
+    gy_list_c[3][4].append([5,6])
+    print("The gy_list_c is ",(gy_list_c))
+    print("The gy_list[-1][-1][-2] is ",(gy_list[-1][-1][-2]))
+    print("The gy_list[-2] is ",(gy_list[-2]))
+    print("The length of len(gy_list[-1]) is ",len(gy_list[-1]))
+    print("The length of len(gy_list[-1][-1]) is ",len(gy_list[-1][-1]))
+    print("The gy_list[-1][1:3] is ",(gy_list[-1][1:3]))
+    print("The gy_list[-1][-1][1:-2] is ",(gy_list[-1][-1][1:-2]))
+    return None
+
 if ("__main__" == __name__):
     dis_playmessage = """
     0.Exit.
@@ -50,13 +103,19 @@ if ("__main__" == __name__):
     2.py_test_1_3_4.
     3.py_test_1_3_5.
     4.py_test_1_3_6.
+    5.py_test_1_3_6_1.
+    6.py_test_1_3_7.
+    7.py_test_1_3_8.
     """
     test_dict = {
         "0" : py_test_exit,
         "1" : py_test_1_3_3,
         "2" : py_test_1_3_4,
         "3" : py_test_1_3_5,
-        "4" : py_test_1_3_6
+        "4" : py_test_1_3_6,
+        "5" : py_test_1_3_6_1,
+        "6" : py_test_1_3_7,
+        "7" : py_test_1_3_8
     }
     print(dis_playmessage)
     while True:
