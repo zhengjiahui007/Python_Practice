@@ -4,9 +4,6 @@
 
 
 import os,sys,time,math,copy
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# print(f"BASE_DIR1 is {BASE_DIR}")
-# sys.path.append(BASE_DIR)
 import Test_setting
 from Test_com import py_test_exit
 
