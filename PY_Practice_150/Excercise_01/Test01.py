@@ -3,6 +3,7 @@
 #!usr/bin/env python3
 
 import os,sys,time,math
+import Test_setting
 from Test_com import py_test_exit
 
 def py_test_1_1_1():

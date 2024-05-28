@@ -4,6 +4,7 @@
 
 
 import os,sys,time,math,copy
+import Test_setting
 from Test_com import py_test_exit
 #import Test_com
 

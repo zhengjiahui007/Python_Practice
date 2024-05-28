@@ -4,10 +4,14 @@
 
 
 import os,sys,time,math,copy
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# print(f"BASE_DIR1 is {BASE_DIR}")
+# sys.path.append(BASE_DIR)
+import Test_setting
 from Test_com import py_test_exit
 
 '''
-集合（set）是一个无序的不重复元素序列。
+集合(set)是一个无序的不重复元素序列。
 集合中的元素不会重复，并且可以进行交集、并集、差集等常见的集合操作。
 可以使用大括号 { } 创建集合，元素之间用逗号 , 分隔， 或者也可以使用 set() 函数创建集合。
 创建一个空集合必须用 set() 而不是 { }，因为 { } 是用来创建一个空字典。
