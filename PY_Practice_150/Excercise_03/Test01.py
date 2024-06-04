@@ -81,6 +81,42 @@ def gy_int(str_val:str):
         int_val += int_dic[i_val]
     return int_val
 
+def gy_str(int_val:int):
+    if not isinstance(int_val,(int,)):
+        print(f"The val {int_val} in not an int !")
+        return None
+    temp_val = int_val
+    str_val = ""
+    temp_int_unit = 0
+    while temp_val:
+        temp_int_unit = temp_val%10
+        temp_val = temp_val//10
+        #print(temp_int_unit,temp_val,chr(temp_int_unit + 0x30))
+        str_val += chr(temp_int_unit + 0x30)
+
+    return str_val[::-1]
+
+def gy_float(str_val:str):
+    if not isinstance(str_val,(str,)):
+        print(f"The val {str_val} in not a string !")
+        return None
+
+    int_val_str,float_val_str = str_val.split('.')
+    print(int_val_str,float_val_str)
+    int_val = gy_int(int_val_str)
+    float_val = gy_int(float_val_str)
+    print(int_val,float_val)
+
+    temp_val = float_val
+    temp_float_unit = 0
+    temp_float = 0.0
+    while temp_val:
+        temp_float_unit = temp_val%10
+        temp_float += temp_float_unit
+        temp_float *= 0.1
+        temp_val = temp_val//10
+
+    return (int_val + temp_float)
 
 def py_test_3_1():
     print(gy_abs(0.4))
@@ -109,7 +145,17 @@ def py_test_3_4():
     print(num_result,type(num_result))    
     return None
 
+def py_test_3_6():
+    str_result = gy_str(54893)
+    print(str_result,type(str_result))  
+    return None
 
+def py_test_3_7():
+    float_result = gy_float("134.89809")
+    print(float_result,type(float_result))
+    float_result = gy_float("0.892124809")
+    print(float_result,type(float_result))      
+    return None
 
 if ('__main__' == __name__):
     dis_playmessage = """
@@ -118,13 +164,17 @@ if ('__main__' == __name__):
     2.py_test_3_2.
     3.py_test_3_3.
     4.py_test_3_4.
+    5.py_test_3_6.
+    6.py_test_3_7.
     """
     test_dict = {
         "0" : py_test_exit,
         "1" : py_test_3_1,
         "2" : py_test_3_2,
         "3" : py_test_3_3,
-        "4" : py_test_3_4
+        "4" : py_test_3_4,
+        "5" : py_test_3_6,
+        "6" : py_test_3_7
     }
     print(dis_playmessage)
     while True:
