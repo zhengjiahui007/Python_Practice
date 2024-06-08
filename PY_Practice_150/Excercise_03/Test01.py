@@ -131,6 +131,39 @@ def gy_len(obj):
 
     return obj_len
 
+def gy_enumerate(lst):
+    for i in range(0,len(lst),1):
+        yield i,lst[i]
+    return None
+
+def gy_all(lst):
+    for i in lst:
+        if not i:
+            return False
+    return True
+
+def gy_any(lst):
+    for i in lst:
+        if i:
+            return True
+    return False
+
+def gy_bin(n_val:int):
+    if (0 > n_val):
+        print("Please input a positive integer !")
+        return None
+    int_dict = {
+        0 : "0",
+        1 : "1"
+    }
+    val_temp = n_val
+    bin_lst = ""
+    while val_temp > 0:
+        bin_lst += (int_dict[val_temp%2])
+        val_temp //= 2
+
+    return ("0b" + (bin_lst[::-1]))
+
 def py_test_3_1():
     print(gy_abs(0.4))
     print(gy_abs(23))
@@ -183,6 +216,31 @@ def py_test_3_8():
     print(len_result,type(len_result))
     return None
 
+def py_test_3_9():
+    gy_lst = [1,67,32,'2',23,"sw"]
+    for index_lst,val_lst in gy_enumerate(gy_lst):
+        print(index_lst,val_lst)
+    return None
+
+def py_test_3_10():
+    gy_lst = [True,True,True]
+    print(gy_all(gy_lst))
+    gy_lst = [True,False,True]
+    print(gy_all(gy_lst))
+    return None
+
+def py_test_3_11():
+    gy_lst = [False,True,False]
+    print(gy_any(gy_lst))
+    gy_lst = [False,False,False]
+    print(gy_any(gy_lst))
+    return None
+
+def py_test_3_12():
+    print(gy_bin(15))
+    print(gy_bin(257))
+    return None
+
 if ('__main__' == __name__):
     dis_playmessage = """
     0.Exit.
@@ -193,6 +251,10 @@ if ('__main__' == __name__):
     5.py_test_3_6.
     6.py_test_3_7.
     7.py_test_3_8.
+    8.py_test_3_9.
+    9.py_test_3_10.
+    10.py_test_3_11.
+    11.py_test_3_12.
     """
     test_dict = {
         "0" : py_test_exit,
@@ -202,7 +264,11 @@ if ('__main__' == __name__):
         "4" : py_test_3_4,
         "5" : py_test_3_6,
         "6" : py_test_3_7,
-        "7" : py_test_3_8
+        "7" : py_test_3_8,
+        "8" : py_test_3_9,
+        "9" : py_test_3_10,
+        "10" : py_test_3_11,
+        "11" : py_test_3_12
     }
     print(dis_playmessage)
     while True:
