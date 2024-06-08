@@ -7,6 +7,7 @@ import os,sys,time,math,copy
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 from Test_com import py_test_exit
+from collections.abc import Iterable
 
 def gy_abs(number):
     if isinstance(number,(int,float)):
@@ -110,13 +111,25 @@ def gy_float(str_val:str):
     temp_val = float_val
     temp_float_unit = 0
     temp_float = 0.0
-    while temp_val:
-        temp_float_unit = temp_val%10
-        temp_float += temp_float_unit
-        temp_float *= 0.1
-        temp_val = temp_val//10
+    # while temp_val:
+    #     temp_float_unit = temp_val%10
+    #     temp_float += temp_float_unit
+    #     temp_float *= 0.1
+    #     temp_val = temp_val//10
+    while (temp_val > 1):
+        temp_val *= 0.1
 
-    return (int_val + temp_float)
+    return (int_val + temp_val)
+
+def gy_len(obj):
+    obj_len = 0
+    if not isinstance(obj,Iterable):
+        return None
+
+    for i in obj:
+        obj_len += 1
+
+    return obj_len
 
 def py_test_3_1():
     print(gy_abs(0.4))
@@ -153,8 +166,21 @@ def py_test_3_6():
 def py_test_3_7():
     float_result = gy_float("134.89809")
     print(float_result,type(float_result))
-    float_result = gy_float("0.892124809")
+    float_result = gy_float("780.824809")
     print(float_result,type(float_result))      
+    return None
+
+def py_test_3_8():
+    len_result = gy_len("134.89809")
+    print(len_result,type(len_result))
+    len_result = gy_len([1,2,3,5])
+    print(len_result,type(len_result))
+    len_result = gy_len((1,2,3,5,'w'))
+    print(len_result,type(len_result))
+    len_result = gy_len({1,2,3,5,'w',9})
+    print(len_result,type(len_result))
+    len_result = gy_len({1:2,3:5,'w':9})
+    print(len_result,type(len_result))
     return None
 
 if ('__main__' == __name__):
@@ -166,6 +192,7 @@ if ('__main__' == __name__):
     4.py_test_3_4.
     5.py_test_3_6.
     6.py_test_3_7.
+    7.py_test_3_8.
     """
     test_dict = {
         "0" : py_test_exit,
@@ -174,7 +201,8 @@ if ('__main__' == __name__):
         "3" : py_test_3_3,
         "4" : py_test_3_4,
         "5" : py_test_3_6,
-        "6" : py_test_3_7
+        "6" : py_test_3_7,
+        "7" : py_test_3_8
     }
     print(dis_playmessage)
     while True:
