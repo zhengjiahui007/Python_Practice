@@ -45,12 +45,12 @@ def gy_quick_sort(lst:list,start_index:int,end_index:int):
             j_end -= 1
         #print("j_end = ",j_end)
         lst[i_start] = lst[j_end]
-        #print("2 lst = ",lst)
+        print("2 lst = ",lst)
         while ((i_start < j_end) and (lst[i_start] <= pivot)):
             i_start += 1
         #print("i_start = ",i_start)
         lst[j_end] = lst[i_start]
-        #print("1 lst = ",lst)
+        print("1 lst = ",lst)
 
     lst[i_start] = pivot
     print("lst = ",lst)
@@ -96,12 +96,38 @@ def gy_quick_sort(lst:list,start_index:int,end_index:int):
     return
 
 #quick_sort
+def gy_quick_sort_1(lst:list,start_index:int,end_index:int):
+    if (start_index >= end_index):
+        return
+
+    i_start = start_index
+    j_end = end_index
+    pivot = lst[start_index]
+    print("pivot = ",pivot)
+    while (i_start < j_end):
+        while ((i_start < j_end) and (lst[j_end] >= pivot)):
+            j_end -= 1
+        lst[j_end],lst[i_start] = lst[i_start],lst[j_end]
+        #print("2 lst = ",lst)
+        while ((i_start < j_end) and (lst[i_start] <= pivot)):
+            i_start += 1
+        lst[j_end],lst[i_start] = lst[i_start],lst[j_end]
+        #print("1 lst = ",lst)
+
+    print("i_start = ",i_start," j_end = ",j_end)
+    print("lst = ",lst)
+    #lst[j_end] = pivot
+    gy_quick_sort_1(lst,start_index,i_start - 1)
+    gy_quick_sort_1(lst,i_start + 1,end_index)
+    return
+
+#quick_sort
 def py_test_2_2():
     gy_lst = [1122,908,1123,1,3,2,7,12,321,123,54,221]
     gy_quick_sort(gy_lst,0,len(gy_lst) - 1)
     print(gy_lst)
     gy_lst = [123,54,221,1,342,332,12,67,90,45,32]
-    gy_quick_sort(gy_lst,0,len(gy_lst) - 1)
+    gy_quick_sort_1(gy_lst,0,len(gy_lst) - 1)
     print(gy_lst)
     return
 
@@ -137,7 +163,7 @@ def gy_insert_sort(lst:list):
                 break
         if (-1 != temp_index):
             lst[temp_index] = insert_val
-        #print(lst)
+        #print(temp_index,lst)
     return
 
 #insert sort
@@ -153,18 +179,56 @@ def py_test_2_3():
     print(gy_lst)
     return
 
+def gy_Shell_sort(lst:list):
+    gy_lst_len = len(lst)
+    gy_step = gy_lst_len//2
+    temp_lst = []
+    while (gy_step > 0):
+        # print("gy_step = ",gy_step)
+        for i in range(0,gy_step,1):
+            # print("i = ",i)
+            temp_lst = []
+            for j in range(i,gy_lst_len,gy_step):
+                # print("j = ",j)
+                temp_lst.append(lst[j])
+            # print("temp_lst = ",temp_lst)
+            gy_insert_sort(temp_lst)
+            for j in range(i,gy_lst_len,gy_step):
+                lst[j] = temp_lst[j // gy_step]
+            #sorted_lst += (temp_lst)
+            # print("1 lst = ",temp_lst)
+        gy_step //= 2
+        # print(" lst = ",lst)
+
+    return lst
+
+#Shell's sort
+def py_test_2_4():
+    gy_lst = [1122,908,1123,1,3,2,7,12,321,123,54,221,6356]
+    gy_Shell_sort(gy_lst)
+    print(gy_lst)
+    gy_lst = [123,54,221,1,342,332,12,67,90,45,32]
+    gy_Shell_sort(gy_lst)
+    print(gy_lst)
+    gy_lst = [1236556,12354,221,1342,332,12,6790,4532]
+    gy_Shell_sort(gy_lst)
+    print(gy_lst)
+    return
+
 if ("__main__" == __name__):
     dis_playmessage = """
     0.Exit.
-    1.py_test_2_1.(pop_sort)
+    1.py_test_2_1.(pop sort)
     2.py_test_2_2.(quick sort)
     3.py_test_2_3.(insert sort)
+    4.py_test_2_4.(Shell's sort)
     """
     test_dict = {
         "0" : py_test_exit,
         "1" : py_test_2_1,
         "2" : py_test_2_2,
-        "3" : py_test_2_3
+        "3" : py_test_2_3,
+        "4" : py_test_2_4
     }
     print(dis_playmessage)
     while True:
