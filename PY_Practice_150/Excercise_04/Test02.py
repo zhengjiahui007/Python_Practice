@@ -207,8 +207,45 @@ def gy_merge_sort_loop(lst:list,sort_flag:bool = True):
     lst = gy_sorted_lst[0]
     return lst
 
+def gy_merge_list(l_lst:list,r_lst:list,sort_flag:bool = True):
+
+    merged_sorted_tmp_lst = []
+    i,j = 0,0
+    while ((i < len(l_lst)) and (j < len(r_lst))):
+        # print("i = %d j = %d "%(i,j))
+        if (True == sort_flag):
+            if (l_lst[i] < r_lst[j]):
+                merged_sorted_tmp_lst.append(l_lst[i])
+                i += 1
+            else:
+                merged_sorted_tmp_lst.append(r_lst[j])
+                j += 1
+        elif (False == sort_flag):
+            if (l_lst[i] > r_lst[j]):
+                merged_sorted_tmp_lst.append(l_lst[i])
+                i += 1
+            else:
+                merged_sorted_tmp_lst.append(r_lst[j])
+                j += 1
+    if (i == len(l_lst)):
+        merged_sorted_tmp_lst.extend(r_lst[j::1])
+    elif (j == len(r_lst)):
+        merged_sorted_tmp_lst.extend(l_lst[i::1])
+
+    # print(" merged_sorted_tmp_lst = ",merged_sorted_tmp_lst)
+    return merged_sorted_tmp_lst
+
 def gy_merge_sort_recursive(lst:list,sort_flag:bool = True):
-    return
+    if (len(lst) <= 1):
+        return lst
+
+    lst_mid = len(lst)//2
+    # print(" lst =  ",lst)
+    left_lst = gy_merge_sort_recursive(lst[:lst_mid:1],sort_flag)
+    # print(" left_lst =  ",left_lst)
+    right_lst = gy_merge_sort_recursive(lst[lst_mid::1],sort_flag)
+    # print(" right_lst =  ",right_lst)
+    return gy_merge_list(left_lst,right_lst,sort_flag)
 
 def py_test_5_5():
     gy_lst = [1122,908,1123,61,3,62,47,12,321,123,54,221,34]
@@ -221,6 +258,14 @@ def py_test_5_5():
     print(gy_merge_sort_loop(gy_lst))
     gy_lst = [1236556,12354,221,1342,332,12,6790,4532,90,32]
     print(gy_merge_sort_loop(gy_lst,False))
+    gy_lst = [1122,908,1123,61,3,62,47,12,321,123,54,221,34]
+    print(gy_merge_sort_recursive(gy_lst,True))
+    gy_lst = [1122,908,1123,61,3,62,47,12,321,123,54,221,34]
+    print(gy_merge_sort_recursive(gy_lst,False))
+    gy_lst = [1236556,12354,221,1342,332,12,6790,4532,90,32]
+    print(gy_merge_sort_recursive(gy_lst,True))
+    gy_lst = [1236556,12354,221,1342,332,12,6790,4532,90,32]
+    print(gy_merge_sort_recursive(gy_lst,False))
     return
 
 ########################## Select_sort##########################################
