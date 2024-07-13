@@ -74,14 +74,79 @@ def gy_test_6_1():
 
     return None
 
+########################### Triangle S and Perimeter####################################################
+def gy_test_6_2():
+    gy_lens_str = input("Please input 3 lengths of a triangle with an example as 3 4 5 : ")
+    gy_len_lst = gy_lens_str.split(" ")
+    if (3 != len(gy_len_lst)):
+        print("The number of length is not 3 , please input again !")
+        return None
+
+    if ((not gy_len_lst[0].isdigit()) or (not gy_len_lst[1].isdigit()) or (not gy_len_lst[2].isdigit()) ):
+        print("Input a wrong paramter , exit !")
+        return None
+    
+    gy_a = int(gy_len_lst[0])
+    gy_b = int(gy_len_lst[1])
+    gy_c = int(gy_len_lst[2])
+    gy_P = 0
+    gy_S = 0
+    if ((gy_a < (gy_b + gy_c)) and (gy_b < (gy_a + gy_c)) and (gy_c < (gy_b + gy_a))):
+        gy_P = (gy_a + gy_b + gy_c)
+        gy_p_half = gy_P/2
+        gy_S = (gy_p_half * (gy_p_half - gy_a) * (gy_p_half - gy_b) * (gy_p_half - gy_c)) ** 0.5
+        print("The P = {} and S = {} .".format(gy_P,gy_S))
+        return (gy_P,gy_S)
+    else:
+        print("The 3 numbers can not construct a triangle , please input again !")
+
+    return None
+
+def gy_test_6_3():
+    gy_str0 = "AbCdF"
+    gy_str1 = "FbCDf"
+    letter_lst = []
+    for s in gy_str0:
+        if (('A' <= s) and ('Z' >= s)) or (('a' <= s) and ('z' >= s)):
+            pass
+        else:
+            print("The strings are not correct !")
+            return False
+
+    for s in gy_str1:
+        if (('A' <= s) and ('Z' >= s)) or (('a' <= s) and ('z' >= s)):
+            pass
+        else:
+            print("The strings are not correct !")
+            return False
+
+    if (len(gy_str0) != len(gy_str1)):
+        print("The strings are not correct !")
+        return False
+
+    is_same = True
+    for i in range(0,len(gy_str0),1):
+        if (gy_str0[i] == gy_str1[i]) or (32 == abs(ord(gy_str0[i]) - ord(gy_str1[i]))):
+            is_same = True
+        else:
+            is_same = False
+            break
+
+    print("The result is {result} !".format(result = "the same" if is_same else "not the same"))
+    return is_same
+
 if (__name__ == "__main__"):
     dis_playmessage = '''
     0 : Exit,
     1 : gy_test_6_1(Print Yang Hui Triangle)
+    2 : gy_test_6_2(Triangle S and Perimeter)
+    3 : gy_test_6_3(Is same ignore case)
     '''
     dic_input = {
         "0" : py_test_exit,
-        "1" : gy_test_6_1
+        "1" : gy_test_6_1,
+        "2" : gy_test_6_2,
+        "3" : gy_test_6_3
     }
     while True:
         print(dis_playmessage)
