@@ -8,6 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 from Test_com import py_test_exit
 from collections.abc import Iterable
+from Excercise_04 import Test02
 
 ###########################Print YangHui Triangle####################################################
 '''
@@ -135,18 +136,85 @@ def gy_test_6_3():
     print("The result is {result} !".format(result = "the same" if is_same else "not the same"))
     return is_same
 
+def gy_test_6_4():
+    gy_lst = [123,54,221,1,342,332,12,67,90,45,32]
+    '''
+    若step为负
+    则表示从索引start开始取，直到索引end为止，但不包括索引end.
+    如果start<= end,结果为空；
+    　　解释: step为负数时，因为start + step < end .
+    　　所以, 计算的索引肯定不在[start, end)区间内所以，结果为空([])
+    如果start缺省，默认为len(str)-1；
+    如果end缺省，默认小于0但不是-1(因为-1表示最后一位即-1表示索引为 len(str) - 1)
+    '''
+    gy_min,gy_max = gy_lst[0],gy_lst[0]
+    for i_val in gy_lst:
+        if (i_val > gy_max):
+            gy_max = i_val
+        if (i_val < gy_min):
+            gy_min = i_val
+    print(" gy_min = {} gy_max = {} .".format(gy_min,gy_max))
+    return 
+
+def gy_test_6_5():
+    gy_lst = [1, 12, 32, 45, 54, 67, 90, 342,332,221,123]
+    i = 0
+    for i in range(0,len(gy_lst) - 1,1):
+        if (gy_lst[i] > gy_lst[i + 1]):
+            break
+    print("The max value is %d "%(gy_lst[i]))
+    return
+
+def gy_test_6_6():
+    gy_lst0 = [1, 12, 32, 45, 54]
+    gy_lst1 = ['a','b','c','d','e']
+    gy_lst_matrix = []
+    for i_1 in gy_lst1:
+        tmp_lst = []
+        for i_0 in gy_lst0:
+            tmp_lst.append(str(i_0) + i_1)
+        gy_lst_matrix.append(tmp_lst)
+
+    print("The gy_lst_matrix is  ",gy_lst_matrix)
+    for i in range(0,len(gy_lst_matrix),1):
+        for j in range(0,len(gy_lst_matrix[i]),1):
+            print(gy_lst_matrix[i][j],end = " ")
+        print()
+    return
+
+def gy_test_6_7():
+    gy_lst = [
+        [1, 12, 32],
+        [121, 142, 532],
+        [31, 132, 832]
+    ]
+    gy_lst_diagonal_sum = 0
+    for i in range(0,len(gy_lst),1):
+        gy_lst_diagonal_sum += gy_lst[i][i]
+    print("gy_lst_diagonal_sum = ",gy_lst_diagonal_sum)
+    return
+
+
 if (__name__ == "__main__"):
     dis_playmessage = '''
     0 : Exit,
     1 : gy_test_6_1(Print Yang Hui Triangle)
     2 : gy_test_6_2(Triangle S and Perimeter)
     3 : gy_test_6_3(Is same ignore case)
+    4 : gy_test_6_4(find_max_min)
+    5 : gy_test_6_5(find max)
+    6 : gy_test_6_6(creat matrix)
+    7 : gy_test_6_7(diagonal sum)
     '''
     dic_input = {
         "0" : py_test_exit,
         "1" : gy_test_6_1,
         "2" : gy_test_6_2,
-        "3" : gy_test_6_3
+        "3" : gy_test_6_3,
+        "4" : gy_test_6_4,
+        "5" : gy_test_6_5,
+        "6" : gy_test_6_6,
+        "7" : gy_test_6_7
     }
     while True:
         print(dis_playmessage)
