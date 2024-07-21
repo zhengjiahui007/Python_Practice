@@ -11,6 +11,12 @@ from Test_com import py_test_exit
 from collections.abc import Iterable
 
 def py_test_sort_1():
+    gy_lst = [1122,908,1123,61,3,62,47,12,321,123,54,221]
+    for i_count in range(0,len(gy_lst),1):
+        for i in range(0,len(gy_lst) - i_count - 1,1):
+            if (gy_lst[i] > gy_lst[i + 1]):
+                gy_lst[i],gy_lst[i + 1] = gy_lst[i + 1],gy_lst[i]
+    print("gy_lst = ",gy_lst)
     return
 
 def py_test_sort_2():
