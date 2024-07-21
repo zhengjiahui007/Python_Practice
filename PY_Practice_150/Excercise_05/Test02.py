@@ -10,6 +10,7 @@ from Test_com import py_test_exit
 
 def gy_test_6_8():
     # https://m.php.cn/faq/586236.html
+    # https://www.baidu.com/link?url=vlbo0CURmyVJRQRaNe17v7p9jIWDAZl0SN6lNeYYKdC9lN7aAFOXOEdoAWQ28XjCVKfcR7uredk5PL0PXd5FJYeJ9ZnWR8cBsEJHa1vi6rq&wd=&eqid=a1c3c6b500654da200000006669693b0
     # struct_time = time.strptime("30 Nov 00","%d %b %y")
     # print(struct_time)
     today_time = datetime.datetime.now()
