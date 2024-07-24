@@ -32,6 +32,12 @@ def py_test_sort_5():
     return
 
 def py_test_sort_6():
+    gy_lst = [1122,908,1123,61,3,9,12,10]
+    for i in range(0,len(gy_lst),1):
+        for j in range(i,len(gy_lst),1):
+            if (gy_lst[i] > gy_lst[j]):
+                gy_lst[i],gy_lst[j] = gy_lst[j],gy_lst[i]
+    print("gy_lst = {}".format(gy_lst))
     return
 
 def py_test_sort_7():
