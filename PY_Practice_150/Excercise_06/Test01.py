@@ -3,7 +3,7 @@
 # __Author__ : "GarryZheng"
 # __Date__ : "2024-07-26"
 
-import os,sys,time,datetime,calendar
+import os,sys,time,datetime,calendar,re
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 from Test_com import py_test_exit
@@ -393,9 +393,51 @@ def gy_test_7_10():
     print("The {0} * {1} = {2} ".format(a,b,gy_multi_strs(a,b)))
     return
 
+def gy_revert_int(gy_num:int)->int:
+    if (not isinstance(gy_num,int)) or (0 >= gy_num):
+        return None
+    gy_num_new = gy_num
+    mode_num = 0
+    gy_lst_single_num = []
+    while (0 < gy_num_new):
+        mode_num = gy_num_new % 10
+        gy_lst_single_num.insert(0,mode_num)
+        gy_num_new //= 10
+    # print(gy_lst_single_num)
+    ten_multi = 0
+    gy_num_reverse = 0
+    for i in gy_lst_single_num:
+        gy_num_reverse += i * (10**(ten_multi))
+        ten_multi += 1
+    return gy_num_reverse
+
+def gy_test_7_11():
+    a = 1234578
+    print(f"The {a} reversed is {gy_revert_int(a)} !")
+    a = 32434545
+    print(f"The {a} reversed is {gy_revert_int(a)} !")
+    a = 10000
+    print(f"The {a} reversed is {gy_revert_int(a)} !")
+    return
+
+def gy_test_7_12():
+    gy_time = "15小时43分29秒"
+    gy_time_new = gy_time.replace("小"," ")
+    gy_time_lst = re.split("[时分秒]",gy_time_new)
+    print("gy_time_lst = ",gy_time_lst)
+    gy_seconds_total = int(gy_time_lst[0]) * 3600 + int(gy_time_lst[1]) * 60 + int(gy_time_lst[2])
+    print("gy_seconds_total = ",gy_seconds_total)
+    return
+
 if (__name__ == "__main__"):
+    dis_choice = '''
+    0 : Exit
+    1 : gy 1 - 10
+    2 : gy 11 - 20
+    '''
+
     dis_playmessage = '''
-    00 : Exit
+    0  : Exit
     01 : gy_test_7_1
     02 : gy_test_7_2
     03 : gy_test_7_3
@@ -406,6 +448,11 @@ if (__name__ == "__main__"):
     08 : gy_test_7_8
     09 : gy_test_7_9
     10 : gy_test_7_10
+    '''
+    dis_playmessage2 = '''
+    0  : Exit
+    11 : gy_test_7_11
+    12 : gy_test_7_12
     '''
     dic_input = {
         "0"  : py_test_exit,
@@ -418,9 +465,19 @@ if (__name__ == "__main__"):
         "07" : gy_test_7_7,
         "08" : gy_test_7_8,
         "09" : gy_test_7_9,
-        "10" : gy_test_7_10
+        "10" : gy_test_7_10,
+        "11" : gy_test_7_11,
+        "12" : gy_test_7_12
     }
     while True:
-        print(dis_playmessage)
+        print(dis_choice)
         input_val = input("Please input your choice : ")
+        if ('0' == input_val):
+            py_test_exit()
+        elif ('1' == input_val):
+            print(dis_playmessage)
+        elif ('2' == input_val):
+            print(dis_playmessage2)
+
+        input_val = input("Please input your choice again : ")
         dic_input[input_val]()
