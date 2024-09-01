@@ -3,7 +3,7 @@
 # __Author__ : "GarryZheng"
 # __Date__ : "2024-07-26"
 
-import os,sys,time,datetime,calendar,re
+import os,sys,time,datetime,calendar,re,pprint
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 from Test_com import py_test_exit
@@ -429,6 +429,69 @@ def gy_test_7_12():
     print("gy_seconds_total = ",gy_seconds_total)
     return
 
+def gy_transfer_score(gy_data):
+    # dict
+    if isinstance(gy_data,dict):
+        for key,val in gy_data.items():
+            gy_data[key] = gy_transfer_score(val)
+        return gy_data
+    # list
+    gy_score_lst = []
+    if isinstance(gy_data,list):
+        for i_val in gy_data:
+            gy_score_lst.append(gy_transfer_score(i_val))
+        return gy_score_lst
+    # string
+    if isinstance(gy_data,str):
+        return int(gy_data)
+
+    return None
+
+def gy_test_7_13():
+    gy_score_data = {
+        'python' : {'上学期' : '95','下学期' : '97'},
+        'c++' : ['94','91','99'],
+        'java' : [{'月考' : '91','期中考' : '99','期末考' : '92'}]
+    }
+    gy_transfer_score(gy_score_data)
+    print("gy_score_data = ",gy_score_data)
+    pprint.pprint(gy_score_data)
+    return
+
+def gy_programline_count_in_file(folder_path:str)->int:
+    print(" folder_path = ",folder_path)
+    program_line_count = 0
+    for name_lst in os.listdir(folder_path):
+        print(" name_lst = ",name_lst, os.path.isfile(os.path.join(folder_path,name_lst)))
+        if ((os.path.isfile(os.path.join(folder_path,name_lst))) and name_lst.endswith('.py')):
+            with open(os.path.join(folder_path,name_lst),'r',encoding = 'utf-8') as f_p:
+                # total_line_gen = (1 for i in f_p)
+                # line_count = sum(total_line_gen)
+                # print('line_count = ',line_count)
+                gy_find_triple_quoted = 0
+                for i_line in f_p:
+                    if i_line.isspace():
+                        continue
+                    if i_line.lstrip().startswith('#'):
+                        continue
+                    if (i_line.lstrip().startswith("'''") or i_line.lstrip().startswith('"""')) and (0 == gy_find_triple_quoted):
+                        gy_find_triple_quoted = 1
+                        continue
+                    if (i_line.lstrip().startswith("'''") or i_line.lstrip().startswith('"""')) and (1 == gy_find_triple_quoted):
+                        gy_find_triple_quoted = 0
+                        continue
+                    if (1 == gy_find_triple_quoted):
+                        continue
+                    program_line_count += 1
+
+    return program_line_count
+
+def gy_test_7_14():
+    folder_path = os.path.join(BASE_DIR,"Excercise_05")
+    print('BASE_DIR = ',BASE_DIR)
+    print(gy_programline_count_in_file(folder_path))
+    return
+
 if (__name__ == "__main__"):
     dis_choice = '''
     0 : Exit
@@ -453,6 +516,8 @@ if (__name__ == "__main__"):
     0  : Exit
     11 : gy_test_7_11
     12 : gy_test_7_12
+    13 : gy_test_7_13
+    14 : gy_test_7_14
     '''
     dic_input = {
         "0"  : py_test_exit,
@@ -467,7 +532,9 @@ if (__name__ == "__main__"):
         "09" : gy_test_7_9,
         "10" : gy_test_7_10,
         "11" : gy_test_7_11,
-        "12" : gy_test_7_12
+        "12" : gy_test_7_12,
+        "13" : gy_test_7_13,
+        "14" : gy_test_7_14
     }
     while True:
         print(dis_choice)
