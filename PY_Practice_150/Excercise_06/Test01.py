@@ -492,6 +492,114 @@ def gy_test_7_14():
     print(gy_programline_count_in_file(folder_path))
     return
 
+
+def gy_test_7_15():
+    gy_str = "@@ ### This is a book ,my name is GZ ##!88 73289 ok I am fine !"
+    gy_words_lst = []
+    gy_words_start = -1
+    for i in range(0,len(gy_str),1):
+        if ((('a' <= gy_str[i]) and ('z' >= gy_str[i])) or (('A' <= gy_str[i]) and ('Z' >= gy_str[i]))):
+            if (-1 == gy_words_start):
+                gy_words_start = i
+        else:
+            if (-1 != gy_words_start):
+                gy_words_lst.append(gy_str[gy_words_start : i : 1])
+            gy_words_start = -1
+    print(" gy_words_lst = ",gy_words_lst)
+    return
+
+def gy_test_7_16():
+    file_path = os.path.join(BASE_DIR,"Excercise_06","stu_score.txt")
+    print('file_path = ',file_path)
+    gy_score_dict = {}
+    with open(file_path,'r',encoding = 'utf-8') as f_p:
+        for i_line in f_p:
+            gy_single_lst = []
+            gy_single_lst = i_line.split("，")
+            gy_score_dict[gy_single_lst[0]] = int(gy_single_lst[1])
+    print("gy_score_dict = ",gy_score_dict)
+    max_score = 0
+    for gy_key,gy_val in gy_score_dict.items():
+        if (gy_val > max_score):
+            max_score = gy_val
+    print("max_score = ",max_score)
+    min_score = 100
+    for gy_key,gy_val in gy_score_dict.items():
+        if (gy_val < min_score):
+            min_score = gy_val
+    print("min_score = ",min_score)
+
+    gy_max_num = 0
+    gy_min_num = 0
+    for gy_key,gy_val in gy_score_dict.items():
+        if (gy_val == max_score):
+            gy_max_num += 1
+        if (gy_val == min_score):
+            gy_min_num += 1
+    print(f"gy_max_num = {gy_max_num} gy_min_num = {gy_min_num} !")
+
+    sum_score = 0
+    for gy_key,gy_val in gy_score_dict.items():
+        sum_score += gy_val
+    print("average_score = ",sum_score/len(gy_score_dict))
+    return
+
+def gy_test_7_17():
+    file_path = os.path.join(BASE_DIR,"Excercise_06","stu_score_1.txt")
+    print('file_path = ',file_path)
+    gy_yuwenscore_dict = {}
+    gy_shuxuescore_dict = {}
+    gy_score_dict = {}
+    with open(file_path,'r',encoding = 'utf-8') as f_p:
+        for i_line in f_p:
+            gy_single_lst = []
+            gy_single_lst = i_line.split("，")
+            gy_shuxuescore_dict[gy_single_lst[0]] = int(gy_single_lst[1])
+            gy_yuwenscore_dict[gy_single_lst[0]] = int(gy_single_lst[2])
+            gy_score_dict[gy_single_lst[0]] = {'数学' : int(gy_single_lst[1]),'语文' : int(gy_single_lst[2])}
+    print("gy_yuwenscore_dict = ",gy_yuwenscore_dict)
+    print("gy_shuxuescore_dict = ",gy_shuxuescore_dict)
+    gy_yuwen_samescore_dict = {}
+    for gy_val in gy_yuwenscore_dict.values():
+        gy_yuwen_samescore_dict[gy_val] = []
+    for gy_key,gy_val in gy_yuwenscore_dict.items():
+        gy_yuwen_samescore_dict[gy_val].append(gy_key)
+
+    print("gy_yuwen_samescore_dict = ",gy_yuwen_samescore_dict)
+    for gy_yuwen_key in gy_yuwen_samescore_dict.keys():
+        if (len(gy_yuwen_samescore_dict[gy_yuwen_key]) > 1):
+            print(f" {gy_yuwen_samescore_dict[gy_yuwen_key]} are the same score {gy_yuwen_key} !")
+
+    gy_shuxue_samescore_dict = {}
+    for gy_val in gy_shuxuescore_dict.values():
+        gy_shuxue_samescore_dict[gy_val] = []
+    for gy_key,gy_val in gy_shuxuescore_dict.items():
+        gy_shuxue_samescore_dict[gy_val].append(gy_key)
+
+    print("gy_shuxue_samescore_dict = ",gy_shuxue_samescore_dict)
+    for gy_shuxue_key in gy_shuxue_samescore_dict.keys():
+        if (len(gy_shuxue_samescore_dict[gy_shuxue_key]) > 1):
+            print(f" {gy_shuxue_samescore_dict[gy_shuxue_key]} are the same score {gy_shuxue_key} !")
+
+    for gy_name,gy_score in gy_score_dict.items():
+        if (gy_score_dict[gy_name]['数学'] == gy_score_dict[gy_name]['语文']):
+            print(f" {gy_name}'s Yuwen and Math score are the same !")
+
+    gy_totalscore_dict = {}
+    gy_highest_score = 0
+    for gy_name,gy_score in gy_score_dict.items():
+        gy_totalscore_dict[gy_name] = int(gy_score['数学']) + int(gy_score['语文'])
+        if (gy_totalscore_dict[gy_name] > gy_highest_score):
+            gy_highest_score = gy_totalscore_dict[gy_name]
+    print("gy_totalscore_dict = ",gy_totalscore_dict," gy_highest_score = ",gy_highest_score)
+    total_score = 0
+    for gy_name,gy_score in gy_totalscore_dict.items():
+        total_score += gy_score
+        if (gy_highest_score == gy_score):
+            print(f" {gy_name} got the highest score , gy_highest_score = {gy_highest_score} ")
+    print("The average score of total score is  = ",round((total_score/len(gy_totalscore_dict)),2))
+    return
+
 if (__name__ == "__main__"):
     dis_choice = '''
     0 : Exit
@@ -518,6 +626,9 @@ if (__name__ == "__main__"):
     12 : gy_test_7_12
     13 : gy_test_7_13
     14 : gy_test_7_14
+    15 : gy_test_7_15
+    16 : gy_test_7_16
+    17 : gy_test_7_17
     '''
     dic_input = {
         "0"  : py_test_exit,
@@ -534,7 +645,10 @@ if (__name__ == "__main__"):
         "11" : gy_test_7_11,
         "12" : gy_test_7_12,
         "13" : gy_test_7_13,
-        "14" : gy_test_7_14
+        "14" : gy_test_7_14,
+        "15" : gy_test_7_15,
+        "16" : gy_test_7_16,
+        "17" : gy_test_7_17
     }
     while True:
         print(dis_choice)
