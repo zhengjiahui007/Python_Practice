@@ -600,6 +600,90 @@ def gy_test_7_17():
     print("The average score of total score is  = ",round((total_score/len(gy_totalscore_dict)),2))
     return
 
+def gy_test_7_18():
+    file_path = os.path.join(BASE_DIR,"Excercise_06","Toupiao.txt")
+    print('file_path = ',file_path)
+    gy_vote_set = set()
+    with open(file_path,'r',encoding = 'utf-8') as f_p:
+        for i_line in f_p:
+            gy_vote_set.add(i_line.rstrip())
+    print(f'There are {len(gy_vote_set)} students take part in the vote, they are {gy_vote_set} ! ')
+
+    gy_vote_dic = {}
+    for gy_name in gy_vote_set:
+        gy_vote_dic[gy_name] = 0
+    print('gy_vote_dic = ',gy_vote_dic)
+
+    with open(file_path,'r',encoding = 'utf-8') as f_p:
+        for i_line in f_p:
+            gy_name = i_line.rstrip()
+            gy_vote_dic[gy_name] += 1
+    print('gy_vote_dic = ',gy_vote_dic)
+
+    gy_max_vote = 0
+    for name_key,vote_val in gy_vote_dic.items():
+        if (vote_val > gy_max_vote):
+            gy_max_vote = vote_val
+    print('gy_max_vote = ',gy_max_vote)
+    for name_key,vote_val in gy_vote_dic.items():
+        if (vote_val == gy_max_vote):
+            print('The highest voted name_key = ',name_key)
+    return
+
+def gy_test_7_19():
+    file_path = os.path.join(BASE_DIR,"Excercise_06","fruits_Saturday.txt")
+    print('file_path = ',file_path)
+    sat_fruit_spent_dict = dict()
+    sat_fruit_set = set()
+    with open(file_path,'r',encoding = 'utf-8') as file_p:
+        for i_line in file_p:
+            gy_single_line = []
+            gy_single_line = i_line.strip().split(" ")
+            sat_fruit_spent_dict[gy_single_line[0]] = float(gy_single_line[1])
+            sat_fruit_set.add(gy_single_line[0])
+    print('sat_fruit_spent_dict = ',sat_fruit_spent_dict)
+    sat_max_spent = 0
+    sat_max_spent_fruit = ""
+    sat_total_spent = 0
+    for i_fruit,i_money in sat_fruit_spent_dict.items():
+        sat_total_spent += i_money
+        if (i_money > sat_max_spent):
+            sat_max_spent = i_money
+            sat_max_spent_fruit = i_fruit
+    print('The sat_max_spent_fruit is  = ',sat_max_spent_fruit," sat_total_spent = ",sat_total_spent)
+
+    file_path = os.path.join(BASE_DIR,"Excercise_06","fruits_Sunday.txt")
+    print('file_path = ',file_path)
+    sun_fruit_spent_dict = dict()
+    sun_fruit_set = set()
+    with open(file_path,'r',encoding = 'utf-8') as file_p:
+        for i_line in file_p:
+            gy_single_line = []
+            gy_single_line = i_line.strip().split(" ")
+            sun_fruit_spent_dict[gy_single_line[0]] = float(gy_single_line[1])
+            sun_fruit_set.add(gy_single_line[0])
+    print('sun_fruit_spent_dict = ',sun_fruit_spent_dict)
+    sun_max_spent = 0
+    sun_max_spent_fruit = ""
+    sun_total_spent = 0
+    for i_fruit,i_money in sun_fruit_spent_dict.items():
+        sun_total_spent += i_money
+        if (i_money > sun_max_spent):
+            sun_max_spent = i_money
+            sun_max_spent_fruit = i_fruit
+    print('The sun_max_spent_fruit is  = ',sun_max_spent_fruit," sun_total_spent = ",sun_total_spent)
+    print('The total spent in Sat and Sun is  = ',round((sat_total_spent + sun_total_spent),2))
+    print('sat_fruit_set = ',sat_fruit_set)
+    print('sun_fruit_set = ',sun_fruit_set)
+    print("The fruits both on Sat and Sun are = ",sat_fruit_set.intersection(sun_fruit_set))
+    print("The fruits on Sun but not on Sun are = ",sun_fruit_set.difference(sat_fruit_set))
+    if (sun_max_spent > sat_max_spent):
+        print('sun_max_spent_fruit = ',sun_max_spent_fruit)
+    else:
+        print('sat_max_spent_fruit = ',sat_max_spent_fruit)
+    return
+
+
 if (__name__ == "__main__"):
     dis_choice = '''
     0 : Exit
@@ -629,6 +713,8 @@ if (__name__ == "__main__"):
     15 : gy_test_7_15
     16 : gy_test_7_16
     17 : gy_test_7_17
+    18 : gy_test_7_18
+    19 : gy_test_7_19
     '''
     dic_input = {
         "0"  : py_test_exit,
@@ -648,7 +734,9 @@ if (__name__ == "__main__"):
         "14" : gy_test_7_14,
         "15" : gy_test_7_15,
         "16" : gy_test_7_16,
-        "17" : gy_test_7_17
+        "17" : gy_test_7_17,
+        "18" : gy_test_7_18,
+        "19" : gy_test_7_19
     }
     while True:
         print(dis_choice)
