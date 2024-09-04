@@ -683,6 +683,27 @@ def gy_test_7_19():
         print('sat_max_spent_fruit = ',sat_max_spent_fruit)
     return
 
+def gy_test_7_20():
+    file_path = os.path.join(BASE_DIR,"Excercise_06","IP.txt")
+    print('file_path = ',file_path)
+    ip_times_dict = dict()
+    with open(file_path,'r',encoding = 'utf-8') as fp_file:
+        for i_line in fp_file:
+            ip_val = i_line.strip()
+            ip_times_dict.setdefault(ip_val,0)
+            ip_times_dict[ip_val] += 1
+    print('0 ip_times_dict = ',ip_times_dict)
+    ip_times_lst = []
+    for ip,times in ip_times_dict.items():
+        ip_times_lst.append((ip,times))
+    print(' ip_times_lst = ',ip_times_lst)
+    fun = lambda x : x[1]
+    # 参数key指定了只含一个参数的方法，这个方法用来从列表的每个元素中提取比较键
+    # key -- 主要是用来进行比较的元素，只有一个参数，具体的函数的参数就是取自于可迭代对象中，指定可迭代对象中的一个元素来进行排序。
+    ip_times_lst.sort(key = fun,reverse = False)
+    for i in ip_times_lst:
+        print(i)
+    return
 
 if (__name__ == "__main__"):
     dis_choice = '''
@@ -715,6 +736,7 @@ if (__name__ == "__main__"):
     17 : gy_test_7_17
     18 : gy_test_7_18
     19 : gy_test_7_19
+    20 : gy_test_7_20
     '''
     dic_input = {
         "0"  : py_test_exit,
@@ -736,7 +758,8 @@ if (__name__ == "__main__"):
         "16" : gy_test_7_16,
         "17" : gy_test_7_17,
         "18" : gy_test_7_18,
-        "19" : gy_test_7_19
+        "19" : gy_test_7_19,
+        "20" : gy_test_7_20
     }
     while True:
         print(dis_choice)
