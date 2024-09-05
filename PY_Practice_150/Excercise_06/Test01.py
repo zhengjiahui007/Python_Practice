@@ -705,6 +705,44 @@ def gy_test_7_20():
         print(i)
     return
 
+def gy_test_7_21():
+    file_path = os.path.join(BASE_DIR,"Excercise_06","TeleNO.txt")
+    print('file_path = ',file_path)
+    gy_pattern = re.compile("\d{3}-\d{3}-\d{4}|\(\d{3}\) \d{3}-\d{4}")
+    tele_lst = []
+    with open(file_path,'r',encoding = 'utf-8') as fp_file:
+        for i_line in fp_file:
+            ip_val = i_line.strip()
+            gy_match_obj = gy_pattern.match(ip_val)
+            if (None != gy_match_obj):
+                tele_lst.append(ip_val)
+    print("tele_lst = ",tele_lst)
+    return
+
+def gy_test_7_22():
+    gy_lst = [1,2,3,4,5,6,7,8,9]
+    gy_mv = 5
+    for k in range(0,gy_mv,1):
+        gy_tmp = gy_lst[-1]
+        for i in range(len(gy_lst) - 1,0,-1):
+            gy_lst[i] = gy_lst[i - 1]
+        gy_lst[0] = gy_tmp
+    print(gy_lst)
+    return
+
+def gy_test_7_23():
+    gy_lst = ["fruits_Saturday.txt","IP.txt","TeleNO.txt","Toupiao.txt"]
+    gy_file_all = "file_all.txt"
+    gy_file_all_path = os.path.join(BASE_DIR,"Excercise_06",gy_file_all)
+    with open(gy_file_all_path,'w',encoding = 'utf-8') as all_fp:
+        for file_name in gy_lst:
+            file_path = os.path.join(BASE_DIR,"Excercise_06",file_name)
+            print('file_path = ',file_path)
+            with open(file_path,'r',encoding = 'utf-8') as fp_single:
+                for i_line in fp_single:
+                    all_fp.write(i_line)
+    return
+
 if (__name__ == "__main__"):
     dis_choice = '''
     0 : Exit
@@ -737,6 +775,9 @@ if (__name__ == "__main__"):
     18 : gy_test_7_18
     19 : gy_test_7_19
     20 : gy_test_7_20
+    21 : gy_test_7_21
+    22 : gy_test_7_22
+    23 : gy_test_7_23
     '''
     dic_input = {
         "0"  : py_test_exit,
@@ -759,7 +800,10 @@ if (__name__ == "__main__"):
         "17" : gy_test_7_17,
         "18" : gy_test_7_18,
         "19" : gy_test_7_19,
-        "20" : gy_test_7_20
+        "20" : gy_test_7_20,
+        "21" : gy_test_7_21,
+        "22" : gy_test_7_22,
+        "23" : gy_test_7_23
     }
     while True:
         print(dis_choice)
