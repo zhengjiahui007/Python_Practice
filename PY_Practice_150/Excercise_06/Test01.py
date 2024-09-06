@@ -743,6 +743,23 @@ def gy_test_7_23():
                     all_fp.write(i_line)
     return
 
+def gy_test_7_24():
+    gy_file_all = "all_file.txt"
+    gy_file_all_path = os.path.join(BASE_DIR,"Excercise_06",gy_file_all)
+    gy_pattern = re.compile("[013]{1}")
+    with open(gy_file_all_path,'r',encoding = 'utf-8') as fp_all:
+        for i_line in fp_all:
+            val_line = i_line.strip()
+            gy_match_obj = gy_pattern.match(val_line)
+            if (None != gy_match_obj):
+                # print(gy_match_obj.group())
+                gy_single_file = gy_match_obj.group() + ".txt"
+                gy_single_file_path = os.path.join(BASE_DIR,"Excercise_06",gy_single_file)
+                with open(gy_single_file_path,'a+',encoding = 'utf-8') as fp_single:
+                    fp_single.write(i_line)
+    return
+
+
 if (__name__ == "__main__"):
     dis_choice = '''
     0 : Exit
@@ -778,6 +795,7 @@ if (__name__ == "__main__"):
     21 : gy_test_7_21
     22 : gy_test_7_22
     23 : gy_test_7_23
+    24 : gy_test_7_24
     '''
     dic_input = {
         "0"  : py_test_exit,
@@ -803,7 +821,8 @@ if (__name__ == "__main__"):
         "20" : gy_test_7_20,
         "21" : gy_test_7_21,
         "22" : gy_test_7_22,
-        "23" : gy_test_7_23
+        "23" : gy_test_7_23,
+        "24" : gy_test_7_24
     }
     while True:
         print(dis_choice)
