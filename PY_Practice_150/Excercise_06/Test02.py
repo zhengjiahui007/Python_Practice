@@ -24,23 +24,54 @@ def gy_test_8_1():
             else:
                 gy_init_index += 1
                 break
-
     print(" gy_lst = ",gy_lst)
-
-
-
     return
 
+def combination_sum(gy_lst:list,gy_target:int):
+    print(gy_lst,gy_target)
+    gy_group_lst = []
+    for i in gy_lst:
+        if (i == gy_target):
+            # print("i = ",i)
+            gy_group_lst.append([i])
+            print("1 gy_group_lst = ", gy_group_lst)
+        elif (i > gy_target):
+            continue
+        else:
+            gy_rest = gy_target - i
+            gy_lst_rest = combination_sum(gy_lst,gy_rest)
+            for tmp_lst in gy_lst_rest:
+                tmp_lst.append(i)
+            gy_group_lst.extend(gy_lst_rest)
+            print("2 gy_group_lst = ", gy_group_lst)
+    print(gy_group_lst)
+    return gy_group_lst
+
+def remove_duplicate(gy_lst:list):
+    combination_set = set()
+    for gy_item in gy_lst:
+        gy_item.sort()
+        combination_set.add(tuple(gy_item))
+    return combination_set
+
+def gy_test_8_2():
+    gy_lst = [2,3,5]
+    gy_set = remove_duplicate(combination_sum(gy_lst,8))
+    for gy_i in gy_set:
+        print("gy_i = ",gy_i)
+    return
 
 
 if (__name__ == "__main__"):
     dis_playmessage = '''
     0 : Exit,
     1 : gy_test_8_1(remove the duplicate)
+    2 : gy_test_8_2(combination sum from a list)
     '''
     dic_input = {
         "0" : py_test_exit,
-        "1" : gy_test_8_1
+        "1" : gy_test_8_1,
+        "2" : gy_test_8_2
     }
     while True:
         print(dis_playmessage)
