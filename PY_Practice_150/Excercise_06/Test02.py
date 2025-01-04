@@ -28,6 +28,7 @@ def gy_test_8_1():
     return
 
 def combination_sum(gy_lst:list,gy_target:int):
+    '''
     print(gy_lst,gy_target)
     gy_group_lst = []
     for i in gy_lst:
@@ -45,6 +46,19 @@ def combination_sum(gy_lst:list,gy_target:int):
             gy_group_lst.extend(gy_lst_rest)
             print("2 gy_group_lst = ", gy_group_lst)
     print(gy_group_lst)
+    '''
+    gy_group_lst = []
+    for i in gy_lst:
+        if (i == gy_target):
+            gy_group_lst.append([i])
+        elif (i > gy_target):
+            continue
+        else:
+            gy_i_remainder = gy_target % i
+            if  (0 == gy_i_remainder):
+                gy_i_quotient = gy_target // i
+                for 
+
     return gy_group_lst
 
 def remove_duplicate(gy_lst:list):
