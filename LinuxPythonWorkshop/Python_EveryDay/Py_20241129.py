@@ -41,7 +41,7 @@ def gy_main():
 '''
 use the Pygame
 '''
-import pygame
+import pygame,random
 
 def gy_py_main():
     print(pygame.__version__)
@@ -61,9 +61,33 @@ def gy_py_main():
                 gy_running = False
     return
 
+def gy_pymove_main():
+    print(pygame.__version__)
+    pygame.init()
+    gy_screen = pygame.display.set_mode((800,600))
+    pygame.display.set_caption("Big ball eats small ball!")
+    gy_x,gy_y = 50,50
+    gy_running = True
+    while gy_running:
+        for gy_event in pygame.event.get():
+            #print("The event type is = {}".format(gy_event.type))
+            if (pygame.QUIT == gy_event.type):
+                gy_running = False
+        gy_screen.fill((242,242,242))
+        pygame.draw.circle(gy_screen,(0,0,255),(gy_x,gy_y),30,0)
+        gy_x,gy_y = 50,50
+        pygame.display.flip()
+        pygame.time.delay(500)
+        gy_num_x = random.randint(0,600)
+        gy_num_y = random.randint(0,500)
+        gy_x,gy_y = gy_x + gy_num_x,gy_y + gy_num_y
+
+    return
+
 if "__main__" == __name__:
     #gy_main()
-    gy_py_main()
+    #gy_py_main()
+    gy_pymove_main()
 
 '''
 def gy_main():
