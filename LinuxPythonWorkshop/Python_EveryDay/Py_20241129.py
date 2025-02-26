@@ -3,6 +3,9 @@
 # !usr/bin/env python3
 # __Date__ : "2025-02-20"
 
+'''
+use the tkinter GUI
+'''
 import tkinter
 import tkinter.messagebox
 
@@ -35,8 +38,32 @@ def gy_main():
     gy_panel.pack(side = 'bottom')
     tkinter.mainloop()
 
+'''
+use the Pygame
+'''
+import pygame
+
+def gy_py_main():
+    print(pygame.__version__)
+    pygame.init()
+    gy_screen = pygame.display.set_mode((800,600))
+    pygame.display.set_caption("Big ball eats small ball!")
+    gy_screen.fill((242,242,242))
+    # pygame.draw.circle(gy_screen,(255,0,0,),(100,100),30,0)
+    gy_ball_image = pygame.image.load('./pic_file/ball.png')
+    gy_screen.blit(gy_ball_image,(100,100))
+    pygame.display.flip()
+    gy_running = True
+    while gy_running:
+        for gy_event in pygame.event.get():
+            #print("The event type is = {}".format(gy_event.type))
+            if (pygame.QUIT == gy_event.type):
+                gy_running = False
+    return
+
 if "__main__" == __name__:
-    gy_main()
+    #gy_main()
+    gy_py_main()
 
 '''
 def gy_main():
