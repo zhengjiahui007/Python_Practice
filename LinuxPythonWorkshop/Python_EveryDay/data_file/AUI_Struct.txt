@@ -1,0 +1,15 @@
+typedef enum aui_inputtype_e
+{
+    AUI_INPUT_KEY,
+    AUI_INPUT_WAMPSUBC,
+    AUI_INPUT_WAMPPORVIDE,
+    AUI_INPUT_MAXNUM
+}AUI_InputType_e;
+
+typedef struct aui_inputevent
+{
+    AUI_InputType_e type;
+    std::string input_url;
+    arg;
+    kw_arg;	
+}AUI_InputEvent
