@@ -149,6 +149,8 @@ def gy_request_json_main():
             # print(gy_request.content)  # 获取响应内容
             # print(gy_request.text)
             print(gy_request.json())
+    except json.JSONDecodeError:
+        print("JSON decoding error !")
     except Exception as e:
         print('An exception occurred is : ',e)
         gy_error = True
