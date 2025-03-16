@@ -2,6 +2,7 @@
 # __author__ : "Garry Zheng"
 # !usr/bin/env python3
 # __Date__ : "2025-03-04"
+# coding=utf-8
 
 import time,os
 
@@ -109,9 +110,58 @@ def gy_file_main_2(gy_N:int,gy_file_0:str,mode_0:str,gy_file_1:str,mode_1:str,gy
         print('The try except is finished')
     return
 
+import json,requests
+
+def gy_json_main(gy_jsonfile:str,mode:str):
+    gy_dict = {
+        "job" : "Software engineer",
+        "name": "GarryZheng",
+        "age" : 39,
+        "info": { "job" : "Software engineer","name": "GarryZheng","age" : 39}
+    }
+    gy_file_handle = None
+    try:
+        gy_error = False
+        if os.path.exists(gy_jsonfile):
+            os.remove(gy_jsonfile)
+
+        with open(gy_jsonfile,mode,encoding = 'utf-8') as gy_file_handle:
+            json.dump(gy_dict,gy_file_handle)
+
+    except Exception as e:
+        print('An exception occurred is : ',e)
+        gy_error = True
+    finally:
+        if(False == gy_error):
+            print("save the json file OK!")
+    return
+
+def gy_request_json_main():
+    try:
+        gy_error = False
+        gy_request = requests.get("https://www.baidu.com/")
+        # request_str = str(gy_request.text, encoding='utf-8')
+        # gy_data_py = json.loads(request_str)
+        # print(gy_request.text)
+        if (200 == gy_request.status_code):
+            # print(gy_request.status_code)  # 获取响应状态码
+            # print(gy_request.headers)  # 获取响应头
+            # print(gy_request.content)  # 获取响应内容
+            # print(gy_request.text)
+            print(gy_request.json())
+    except Exception as e:
+        print('An exception occurred is : ',e)
+        gy_error = True
+    finally:
+        if(False == gy_error):
+            print("load the json file OK!")
+    return
 
 if ('__main__' == __name__):
     # gy_file_main_0("./data_file/AUI_Struct.txt","r")
     # gy_file_main_1("./data_file/AUI_Strut.txt","r")
-    gy_file_main_2(20000,"./data_file/100.txt","a+","./data_file/1000.txt","a+","./data_file/10000.txt","a+")
+    # gy_file_main_2(20000,"./data_file/100.txt","a+","./data_file/1000.txt","a+","./data_file/10000.txt","a+")
+    # gy_json_main("./data_file/my_dict.json","w")
+    gy_request_json_main()
+
 
