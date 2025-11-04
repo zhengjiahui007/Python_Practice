@@ -112,7 +112,7 @@ class GZ_Calculator:
             result = self.gz_cal_modifyResult(result)
             self.gz_CurrentShow.set(result)
             self.is_calc = True
-        elif oper == 'sqrt':
+        elif (oper == 'sqrt'):
             try:
                 result = math.sqrt(float(self.gz_CurrentShow.get()))
             except Exception as e:
@@ -135,6 +135,35 @@ class GZ_Calculator:
             result = self.gz_cal_modifyResult(result)
             self.gz_CurrentShow.set(result)
             self.is_calc = True
+        elif (oper == 'MS'):
+            self.gz_storage.clear()
+            self.gz_storage.append(self.gz_CurrentShow.get())
+        elif (oper == 'M+'):
+            self.gz_storage.append(self.gz_CurrentShow.get())
+        elif (oper == 'M-'):
+            if self.gz_CurrentShow.get().startswith('-'):
+                self.gz_storage.append(self.gz_CurrentShow.get())
+            else:
+                self.gz_storage.append('-' + self.gz_CurrentShow.get())
+        elif (oper in ['+', '-', '*', '/', '%']):
+            self.gz_storage.append(self.gz_CurrentShow.get())
+            self.gz_storage.append(oper)
+            self.is_calc = True
+        elif (oper == '='):
+            if self.is_calc:
+                self.gz_CurrentShow.set('0')
+            self.gz_storage.append(self.gz_CurrentShow.get())
+            expression = ''.join(self.gz_storage)
+            try:
+                result = eval(expression)
+            # 除以0的情况
+            except Exception as e:
+                gz_debug_print('An exception occurred {} '.format(e))
+                result = 'illegal operation'
+            result = self.gz_cal_modifyResult(result)
+            self.gz_CurrentShow.set(result)
+            self.gz_storage.clear()
+            self.is_calc = True
         return None
 
     def gz_cal_pressNumber(self,number:str) -> None:
@@ -147,7 +176,6 @@ class GZ_Calculator:
             if len(self.gz_CurrentShow.get()) < self.max_show_len:
                 self.gz_CurrentShow.set(self.gz_CurrentShow.get() + number)
         return None
-
 
     def gz_cal_screen(self):
         # layout 
@@ -173,7 +201,7 @@ class GZ_Calculator:
             button_x = button_x + button_w_interval
 
         # line 2
-        button2_txt_lst = ["del","CE","C","+/-","sqt"]
+        button2_txt_lst = ["del","CE","C","+/-","sqrt"]
         button_x = 20
         button2_1_y = button1_1_y + button_h_interval
         for b_txt in button2_txt_lst:
