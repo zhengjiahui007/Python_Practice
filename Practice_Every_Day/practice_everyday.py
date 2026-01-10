@@ -78,6 +78,77 @@ def practice_evday_09():
     print("gy_s = {} ".format(gy_s))
     return None
 
+def practice_evday_10():
+    '''
+    某个字符或子串到底出现了多少次
+    str.count(sub, start=0, end=len(str))
+    '''
+    gy_txt = "hbhhhhhbbbbhbbbhbbbbbhhhhhhhhbhbh"
+    a = gy_txt.count('h',0,len(gy_txt))
+    b = gy_txt.count('b',0,len(gy_txt))
+    c = a - b
+    print(f'a is {a} , b is {b} , c is {c} .')
+    return None
+
+def practice_evday_11():
+    try:
+        gy_info = ["一九","二九","三九"]
+        '''
+        delete element in list
+        '''
+        print(f" gy_info = {gy_info} .")
+        gy_info.remove('一九')
+        print(f" gy_info = {gy_info} .")
+        gy_info = ["一九","二九","三九"]
+        gy_info.pop(1)
+        print(f" gy_info = {gy_info} .")
+    except Exception as e:
+      print('Something went wrong e ',e)
+    finally:
+      print('The try except is finished')
+    return None
+
+def practice_evday_12():
+    try:
+        print(10 / 0)
+    except ZeroDivisionError:
+      print('Something went wrong !')
+    finally:
+      print('The try except is finished')
+    return None
+
+def practice_evday_13():
+    try:
+        gy_l1 = ['a','b','c']
+        gy_l2 = list()
+        gy_l1 += gy_l2
+        gy_l1.clear()
+        print(f'gy_l1 = {gy_l1}.')
+
+        gy_l3 = [1,2,3]
+        gy_l4 = gy_l3
+        gy_l4[1] = 4
+        print(f'gy_l3 = {gy_l3}')
+        del gy_l4[::]
+        print(f'gy_l3 = {gy_l3} , gy_l4 = {gy_l4}')
+
+        gy_l5 = [1,2,3]
+        gy_l6 = gy_l5
+        gy_l6[1] = 7
+        print(f'gy_l5 = {gy_l5}')
+        gy_l6 *= 0
+        print(f'gy_l5 = {gy_l5} , gy_l6 = {gy_l6}')
+
+        gy_l7 = [1,2,3]
+        gy_l8 = gy_l7
+        gy_l7 = []
+        print(f'gy_l7 = {gy_l7} , gy_l8 = {gy_l8}')
+    except Exception:
+      print('Something went wrong !')
+    finally:
+      print('The try except is finished')
+    return None
+
 if ('__main__' == __name__):
     dis_playmessage = """
     0.Exit.
@@ -89,7 +160,11 @@ if ('__main__' == __name__):
     6.practice_evday_06.
     7.practice_evday_07.
     8.practice_evday_08.
-    9.practice_evday_09
+    9.practice_evday_09.
+    10.practice_evday_10.
+    11.practice_evday_11.
+    12.practice_evday_12.
+    13.practice_evday_13.
     """
     test_dict = {
         "0" : py_test_exit,
@@ -101,7 +176,11 @@ if ('__main__' == __name__):
         "6" : practice_evday_06,
         "7" : practice_evday_07,
         "8" : practice_evday_08,
-        "9" : practice_evday_09
+        "9" : practice_evday_09,
+        "10": practice_evday_10,
+        "11": practice_evday_11,
+        "12": practice_evday_12,
+        "13": practice_evday_13
     }
     print(dis_playmessage)
     while True:
