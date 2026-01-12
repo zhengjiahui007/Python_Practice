@@ -149,6 +149,116 @@ def practice_evday_13():
       print('The try except is finished')
     return None
 
+def practice_evday_14():
+    try:
+        a = '20'
+        b = '24'
+        print(f'a + b = {a + b},{type(a + b)}')
+    except Exception as e:
+      print('Something went wrong e is : ',e)
+    finally:
+      print('The try except is finished')
+    return None
+
+def practice_evday_15():
+    try:
+        a = 0
+        b = 5
+        print(f'a or (b and 10) = {a or (b and 10)},{type(a or (b and 10))}')
+    except Exception as e:
+      print('Something went wrong e is : ',e)
+    finally:
+      print('The try except is finished')
+    return None
+
+def practice_evday_16():
+    try:
+        for i in range(0,3,1):
+            if (i == 5):
+                break
+        else:
+            print("Done !")
+    except Exception as e:
+      print('Something went wrong e is : ',e)
+    finally:
+      print('The try except is finished')
+    return None
+
+def practice_evday_17():
+    try:
+        funcs = []
+        for i in range(0,3,1):
+            funcs.append(lambda : i)
+        print(f"funcs = {funcs}")
+        print([f() for f in funcs])
+        funcs1 = []
+        f = lambda a : a
+        print(f(4))
+        for k in range(0,3,1):
+            funcs1.append(lambda x = k : x)
+            # "默认参数就像给lambda拍了一张快照，把当前瞬间永远定格"
+
+        print(f"funcs1 = {funcs1}")
+        print([f() for f in funcs1])
+    except Exception as e:
+      print('Something went wrong e is : ',e)
+    finally:
+      print('The try except is finished')
+    return None
+
+def practice_evday_18():
+    try:
+        print(bool(2) + 3)
+    except Exception as e:
+      print('Something went wrong e is : ',e)
+    finally:
+      print('The try except is finished')
+    return None
+
+def practice_evday_19():
+    try:
+        s = {1,2}
+        x = s.add(3)
+        print(f'x is {x} , s is {s}.')
+    except Exception as e:
+      print('Something went wrong e is : ',e)
+    finally:
+      print('The try except is finished')
+    return None
+
+def practice_evday_20():
+    try:
+        s = [3,5,7,9]
+        s[1] = s[0] + s[2]
+        s[3] = s[1] * 2
+        print(f's[3] is {s[3]} , s is {s}.')
+    except Exception as e:
+      print('Something went wrong e is : ',e)
+    finally:
+      print('The try except is finished')
+    return None
+
+def practice_evday_21():
+    try:
+        gy_l = [i * i + 1 for i in range(1,10,3)]
+        print("gy_l is {} ".format(gy_l))
+    except Exception as e:
+      print('Something went wrong e is : ',e)
+    finally:
+      print('The try except is finished')
+    return None
+
+def practice_evday_22():
+    try:
+        gy_l = [10,20]
+        gy_b = gy_l * 2
+        print("gy_b is {} ".format(gy_b))
+    except Exception as e:
+      print('Something went wrong e is : ',e)
+    finally:
+      print('The try except is finished')
+    return None
+
 if ('__main__' == __name__):
     dis_playmessage = """
     0.Exit.
@@ -165,6 +275,15 @@ if ('__main__' == __name__):
     11.practice_evday_11.
     12.practice_evday_12.
     13.practice_evday_13.
+    14.practice_evday_14.
+    15.practice_evday_15.
+    16.practice_evday_16.
+    17.practice_evday_17.
+    18.practice_evday_18.
+    19.practice_evday_19.
+    20.practice_evday_20.
+    21.practice_evday_21.
+    22.practice_evday_22.
     """
     test_dict = {
         "0" : py_test_exit,
@@ -180,7 +299,16 @@ if ('__main__' == __name__):
         "10": practice_evday_10,
         "11": practice_evday_11,
         "12": practice_evday_12,
-        "13": practice_evday_13
+        "13": practice_evday_13,
+        "14": practice_evday_14,
+        "15": practice_evday_15,
+        "16": practice_evday_16,
+        "17": practice_evday_17,
+        "18": practice_evday_18,
+        "19": practice_evday_19,
+        "20": practice_evday_20,
+        "21": practice_evday_21,
+        "22": practice_evday_22
     }
     print(dis_playmessage)
     while True:
