@@ -259,6 +259,126 @@ def practice_evday_22():
       print('The try except is finished')
     return None
 
+def practice_evday_23():
+    try:
+      gy_a = 3
+      gy_b = 3
+      print(f"gy_a is {hex(id(gy_a))} , gy_b is {hex(id(gy_b))}")
+      if (gy_a is gy_b):
+        print("The same , ram address is the same !")
+      elif (gy_a == gy_b):
+        print("The value equal !")
+      else:
+        print("Different !")
+    except Exception as e:
+      print('Something went wrong e is : ',e)
+    finally:
+      print('The try except is finished')
+    return None
+
+import json
+from pathlib import Path
+
+def practice_evday_24():
+    try:
+      gy_dict = {
+          "job" : "Software engineer",
+          "name": "GarryZheng",
+          "age" : 39,
+          "info": { "job" : "Software engineer","name": "GarryZheng","age" : 39}
+      }
+      gy_file = "./gy_con_dict.json"
+      with open(gy_file,"w",encoding = 'utf-8') as f:
+        # write the data as json format to file
+        json.dump(gy_dict,f,indent = 4, ensure_ascii = False)
+
+      #  create path object
+      config_path = Path(gy_file)
+      with config_path.open() as gy_f:
+        # read the json file to python data
+        gy_config = json.load(gy_f)
+        print(gy_config.get('info'),gy_config.get('job'),gy_config.get('info').get('job'),sep = "\n",)
+    
+      gy_l = [1,2,3,4,5,6,5,4,3,3,2,3,4]
+      gy_file_l = "./gy_con_list.json"
+      con_file_l = Path(gy_file_l)
+      with con_file_l.open('w',encoding = 'utf-8') as gy_f_l:
+        json.dump(gy_l,gy_f_l,indent = 4, ensure_ascii = False)
+    except Exception as e:
+      print('Something went wrong e is : ',e)
+    return None
+
+def practice_evday_25():
+    try:
+      vegatible = "Tomato"
+      print(vegatible.replace("a","s"))
+    except Exception as e:
+      print('Something went wrong e is : ',e)
+    return None
+
+def practice_evday_26():
+    try:
+        gy_x_dic = {"x":3}
+        gy_b_dic = gy_x_dic
+        gy_x_dic.update({"x":4})
+        gy_x_dic = {"x":5}
+        print(f"gy_b_dic = {gy_b_dic}")
+    except Exception as e:
+      print('Something went wrong e is : ',e)
+    return None
+
+def practice_evday_27():
+    try:
+      class Cat:
+        def mnew(self):
+         print("menow")
+    
+      gy_c = Cat()
+      gy_c.mnew()
+    except Exception as e:
+      print('Something went wrong e is : ',e)
+    return None
+
+def practice_evday_28():
+    try:
+      gy_a_l = [1,2,3]
+      gy_b_l = gy_a_l
+      gy_a_l[0] = 9
+      print(f"gy_b_l = {gy_b_l}")
+    except Exception as e:
+      print('Something went wrong e is : ',e)
+    return None
+
+def practice_evday_29():
+    try:
+        '''
+        Python 的默认参数值在函数定义时只创建一次，
+        而不是每次调用时重新创建。
+        当默认参数是可变对象（如列表、字典）时，所有函数调用都会共享这个对象。
+        危险的默认参数
+        • 列表:def func(x=[])
+        • 字典:def func(x={})
+        • 集合:def func(x=set())
+        '''
+        def gy_func(x,y = [])->list:
+            y.append(x)
+            return y
+
+        print(gy_func(1))
+        print(gy_func(3))
+    except Exception as e:
+        print('Something went wrong e is : ',e)
+    return None
+
+def practice_evday_30():
+    try:
+        word = 'So'
+        ch = 'ftware'
+        print(word * 2 + 'Love')
+    except Exception as e:
+        print('Something went wrong e is : ',e)
+    return None
+
 if ('__main__' == __name__):
     dis_playmessage = """
     0.Exit.
@@ -284,6 +404,14 @@ if ('__main__' == __name__):
     20.practice_evday_20.
     21.practice_evday_21.
     22.practice_evday_22.
+    23.practice_evday_23.
+    24.practice_evday_24.
+    25.practice_evday_25.
+    26.practice_evday_26.
+    27.practice_evday_27.
+    28.practice_evday_28.
+    29.practice_evday_29.
+    30.practice_evday_30.
     """
     test_dict = {
         "0" : py_test_exit,
@@ -308,7 +436,15 @@ if ('__main__' == __name__):
         "19": practice_evday_19,
         "20": practice_evday_20,
         "21": practice_evday_21,
-        "22": practice_evday_22
+        "22": practice_evday_22,
+        "23": practice_evday_23,
+        "24": practice_evday_24,
+        "25": practice_evday_25,
+        "26": practice_evday_26,
+        "27": practice_evday_27,
+        "28": practice_evday_28,
+        "29": practice_evday_29,
+        "30": practice_evday_30
     }
     print(dis_playmessage)
     while True:
